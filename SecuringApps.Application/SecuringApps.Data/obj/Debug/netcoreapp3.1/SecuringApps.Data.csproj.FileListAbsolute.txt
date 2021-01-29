@@ -1,0 +1,12 @@
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Data.deps.json
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Data.dll
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Data.pdb
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Domain.dll
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Domain.pdb
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.csprojAssemblyReference.cache
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.AssemblyInfoInputs.cache
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.AssemblyInfo.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.csproj.CoreCompileInputs.cache
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.csproj.CopyComplete
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.dll
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.pdb

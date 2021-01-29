@@ -1,0 +1,12 @@
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\bin\Debug\netcoreapp3.1\SecuringApps.Domain.deps.json
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\bin\Debug\netcoreapp3.1\SecuringApps.Domain.runtimeconfig.json
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\bin\Debug\netcoreapp3.1\SecuringApps.Domain.runtimeconfig.dev.json
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\bin\Debug\netcoreapp3.1\SecuringApps.Domain.dll
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\bin\Debug\netcoreapp3.1\SecuringApps.Domain.pdb
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\obj\Debug\netcoreapp3.1\SecuringApps.Domain.csprojAssemblyReference.cache
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\obj\Debug\netcoreapp3.1\SecuringApps.Domain.AssemblyInfoInputs.cache
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\obj\Debug\netcoreapp3.1\SecuringApps.Domain.AssemblyInfo.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\obj\Debug\netcoreapp3.1\SecuringApps.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\obj\Debug\netcoreapp3.1\SecuringApps.Domain.dll
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\obj\Debug\netcoreapp3.1\SecuringApps.Domain.pdb
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Domain\obj\Debug\netcoreapp3.1\SecuringApps.Domain.genruntimeconfig.cache
