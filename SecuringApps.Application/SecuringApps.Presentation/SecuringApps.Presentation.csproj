@@ -23,4 +23,8 @@
     <ProjectReference Include="..\SecuringApps.IOC\SecuringApps.IOC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
 </Project>

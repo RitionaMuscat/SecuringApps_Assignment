@@ -14,11 +14,12 @@ namespace SecuringApps.Data.Context
         }
 
         public DbSet<Member> Members { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-           //   modelBuilder.Entity<Member>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+             modelBuilder.Entity<Member>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             //modelBuilder.Entity<Category>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
 
         }

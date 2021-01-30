@@ -1,4 +1,6 @@
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Data.deps.json
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Data.runtimeconfig.json
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Data.runtimeconfig.dev.json
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Data.dll
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Data.pdb
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\bin\Debug\netcoreapp3.1\SecuringApps.Domain.dll
@@ -10,3 +12,4 @@ C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringA
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.csproj.CopyComplete
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.dll
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.pdb
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Data\obj\Debug\netcoreapp3.1\SecuringApps.Data.genruntimeconfig.cache
