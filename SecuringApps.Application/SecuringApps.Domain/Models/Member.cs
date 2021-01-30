@@ -14,7 +14,6 @@ namespace SecuringApps.Domain.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public bool isStudent { get; set; }
        
     }
 }

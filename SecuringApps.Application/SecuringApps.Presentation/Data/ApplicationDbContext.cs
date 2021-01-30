@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SecuringApps.Presentation.Models;
 using System;
@@ -7,7 +8,8 @@ using System.Text;
 
 namespace SecuringApps.Presentation.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -20,3 +22,4 @@ namespace SecuringApps.Presentation.Data
         }
     }
 }
+
