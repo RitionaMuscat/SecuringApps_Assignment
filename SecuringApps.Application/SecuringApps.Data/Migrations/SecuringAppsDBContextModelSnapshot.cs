@@ -35,6 +35,9 @@ namespace SecuringApps.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isStudent")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Members");

@@ -10,5 +10,7 @@ namespace SecuringApps.Presentation.Models
     {
 
         public DateTime LastLoggedIn { get; set; }
+        public bool IsStudent { get; set; }
+
     }
 }

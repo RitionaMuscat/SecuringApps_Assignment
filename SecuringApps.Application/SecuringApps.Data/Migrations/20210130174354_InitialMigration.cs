@@ -14,7 +14,8 @@ namespace SecuringApps.Data.Migrations
                     Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
                     Email = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    isStudent = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -10,7 +10,7 @@ using SecuringApps.Data.Context;
 namespace SecuringApps.Data.Migrations
 {
     [DbContext(typeof(SecuringAppsDBContext))]
-    [Migration("20210130112834_InitialMigration")]
+    [Migration("20210130174354_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace SecuringApps.Data.Migrations
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isStudent")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
