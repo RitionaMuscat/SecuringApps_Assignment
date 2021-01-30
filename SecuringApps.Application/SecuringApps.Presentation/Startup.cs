@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Configuration;
@@ -15,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 
 using SecuringApps.IOC;
 using SecuringApps.Presentation.Data;
-using SecuringApps.Presentation.Models;
 
 namespace SecuringApps.Presentation
 {
@@ -35,15 +28,9 @@ namespace SecuringApps.Presentation
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-
-      //      services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-      //          .AddEntityFrameworkStores<ApplicationDbContext>();
-
-
             services.AddIdentity<IdentityUser, IdentityRole>()
               .AddEntityFrameworkStores<ApplicationDbContext>()
-                  .AddDefaultUI();
-
+                  .AddDefaultUI().AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
