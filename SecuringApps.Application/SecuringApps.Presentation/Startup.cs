@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 
 using SecuringApps.IOC;
 using SecuringApps.Presentation.Data;
+using SecuringApps.Presentation.Models;
 
 namespace SecuringApps.Presentation
 {

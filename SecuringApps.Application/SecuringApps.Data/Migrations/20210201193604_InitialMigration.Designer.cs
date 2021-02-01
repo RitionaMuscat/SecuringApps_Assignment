@@ -10,7 +10,7 @@ using SecuringApps.Data.Context;
 namespace SecuringApps.Data.Migrations
 {
     [DbContext(typeof(SecuringAppsDBContext))]
-    [Migration("20210130174354_InitialMigration")]
+    [Migration("20210201193604_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
