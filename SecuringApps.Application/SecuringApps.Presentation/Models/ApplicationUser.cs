@@ -16,8 +16,13 @@ namespace SecuringApps.Presentation.Models
             set { _LastLoggedIn = value; }
         }
 
-        //public DateTime LastLoggedIn {get DateTime.Now set Last= DateTime.Now;
-        public bool IsStudent { get; set; }
+        private bool _isStudent = true;
+
+        public bool isStudent
+        {
+            get { return _isStudent; }
+            set { _isStudent = value; }
+        }
 
     }
 }

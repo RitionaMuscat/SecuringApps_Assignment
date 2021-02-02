@@ -159,6 +159,8 @@ C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringA
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\SecuringApps.Presentation.TagHelpers.input.cache
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\SecuringApps.Presentation.TagHelpers.output.cache
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\SecuringApps.Presentation.RazorCoreGenerate.cache
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
@@ -175,3 +177,9 @@ C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringA
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\SecuringApps.Presentation.dll
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\SecuringApps.Presentation.pdb
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\SecuringApps.Presentation.genruntimeconfig.cache
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Views\Role\Create.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Views\Role\Index.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\AccessDenied.cshtml.g.cs

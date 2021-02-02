@@ -29,13 +29,19 @@ namespace SecuringApps.Presentation
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
               .AddEntityFrameworkStores<ApplicationDbContext>()
                   .AddDefaultUI().AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddAuthorization(options => {
+                options.AddPolicy("readpolicy",
+                    builder => builder.RequireRole("Student", "Manager", "User"));
+                options.AddPolicy("writepolicy",
+                    builder => builder.RequireRole("Teacher", "Manager"));
+            });
             DependencyContainer.RegisterServices(services,
                   Configuration.GetConnectionString("DefaultConnection"));
 
