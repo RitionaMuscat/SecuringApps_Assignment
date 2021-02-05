@@ -67,7 +67,7 @@ namespace SecuringApps.Presentation.Areas.Identity.Pages.Account
         {
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
-      
+
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
@@ -78,7 +78,7 @@ namespace SecuringApps.Presentation.Areas.Identity.Pages.Account
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
-                return RedirectToPage("./Login", new {ReturnUrl = returnUrl });
+                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -88,7 +88,7 @@ namespace SecuringApps.Presentation.Areas.Identity.Pages.Account
             }
 
             // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
@@ -103,8 +103,8 @@ namespace SecuringApps.Presentation.Areas.Identity.Pages.Account
                 // If the user does not have an account, then ask the user to create an account.
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
-         
-            
+
+
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
                     Input = new InputModel
@@ -129,46 +129,56 @@ namespace SecuringApps.Presentation.Areas.Identity.Pages.Account
                 ErrorMessage = "Error loading external login information during confirmation.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
-
-            if (ModelState.IsValid)
+            if (role.Name == "Teacher")
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-
-                var result = await _userManager.CreateAsync(user);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    result = await _userManager.AddLoginAsync(user, info);
+
+                    var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                    Console.WriteLine("user: " + user.Id);
+                    var result = await _userManager.CreateAsync(user);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-                        await _userManager.AddToRoleAsync(user, role.Name);
-                        var userId = await _userManager.GetUserIdAsync(user);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                        var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code },
-                            protocol: Request.Scheme);
-
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                        // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        result = await _userManager.AddLoginAsync(user, info);
+                        if (result.Succeeded)
                         {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                            _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                            await _userManager.AddToRoleAsync(user, role.Name);
+
+                            var userId = await _userManager.GetUserIdAsync(user);
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                            var callbackUrl = Url.Page(
+                                "/Account/ConfirmEmail",
+                                pageHandler: null,
+                                values: new { area = "Identity", userId = userId, code = code },
+                                protocol: Request.Scheme);
+
+                            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                            // If account confirmation is required, we need to show the link if we don't have a real email sender
+                            if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                            {
+                                return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                            }
+
+                            await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                         }
-
-                        await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
-
+                        else
+                        {
+                            ErrorMessage = "Student could not be registered using microsoft account";
+                            ModelState.AddModelError(string.Empty, ErrorMessage);
+                        }
                         return LocalRedirect(returnUrl);
                     }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+
             }
 
             ProviderDisplayName = info.ProviderDisplayName;
