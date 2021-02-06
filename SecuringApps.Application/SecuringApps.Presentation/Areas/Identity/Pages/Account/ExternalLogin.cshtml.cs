@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -104,13 +102,11 @@ namespace SecuringApps.Presentation.Areas.Identity.Pages.Account
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
 
-
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
                     Input = new InputModel
                     {
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-
                     };
                 }
                 ViewData["roles"] = _roleManager.Roles.ToList();
@@ -129,13 +125,17 @@ namespace SecuringApps.Presentation.Areas.Identity.Pages.Account
                 ErrorMessage = "Error loading external login information during confirmation.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
-            if (role.Name == "Teacher")
-            {
-                if (ModelState.IsValid)
-                {
 
+            if (ModelState.IsValid)
+            {
+                if (role.Name == "Student")
+                {
+                    ErrorMessage = "Student could not be registered using microsoft account";
+                    ModelState.AddModelError(string.Empty, ErrorMessage);
+                }
+                else
+                {
                     var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-                    Console.WriteLine("user: " + user.Id);
                     var result = await _userManager.CreateAsync(user);
                     if (result.Succeeded)
                     {
@@ -166,21 +166,15 @@ namespace SecuringApps.Presentation.Areas.Identity.Pages.Account
 
                             await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                         }
-                        else
-                        {
-                            ErrorMessage = "Student could not be registered using microsoft account";
-                            ModelState.AddModelError(string.Empty, ErrorMessage);
-                        }
                         return LocalRedirect(returnUrl);
                     }
+
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
-
             }
-
             ProviderDisplayName = info.ProviderDisplayName;
             ReturnUrl = returnUrl;
             ViewData["roles"] = _roleManager.Roles.ToList();

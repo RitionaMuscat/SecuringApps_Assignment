@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SecuringApps.Presentation.Models;
+using SecuringApps.Domain.Models;
 
 namespace SecuringApps.Presentation.Data
 {
@@ -17,6 +18,8 @@ namespace SecuringApps.Presentation.Data
         {
             base.OnModelCreating(builder);
         }
+
+        public DbSet<SecuringApps.Domain.Models.Member> Member { get; set; }
     }
 }
 

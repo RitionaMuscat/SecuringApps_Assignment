@@ -185,3 +185,7 @@ C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringA
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ExternalLogin.cshtml.g.cs
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml.g.cs
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\_LoginPartial.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\_ViewImports.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\_ViewStart.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Views\StudentRegister\Create.cshtml.g.cs

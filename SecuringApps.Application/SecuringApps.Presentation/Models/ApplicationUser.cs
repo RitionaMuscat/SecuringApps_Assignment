@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SecuringApps.Presentation.Models
 {
@@ -16,7 +13,7 @@ namespace SecuringApps.Presentation.Models
             set { _LastLoggedIn = value; }
         }
 
-        private bool _isStudent = true;
+        private bool _isStudent;
 
         public bool isStudent
         {
