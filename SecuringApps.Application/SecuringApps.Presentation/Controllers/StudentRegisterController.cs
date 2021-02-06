@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SecuringApps.Presentation.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace SecuringApps.Presentation.Controllers
@@ -39,26 +36,15 @@ namespace SecuringApps.Presentation.Controllers
             _roleManager = roleManager;
         }
 
-
+        [Authorize(Policy = "writepolicy")]
         public IActionResult Create()
         {
-            //  var role = _roleManager.FindByIdAsync(Input.Name).Result;
-            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             ViewData["roles"] = _roleManager.Roles.ToList();
-
-
             return View();
         }
-
-
-
         [BindProperty]
         public InputModel Input { get; set; }
-
         public string ReturnUrl { get; set; }
-
-        //public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
         public class InputModel
         {
             [Required]
@@ -79,7 +65,54 @@ namespace SecuringApps.Presentation.Controllers
             public string Name { get; set; }
         }
 
-        [Authorize(Policy = "writepolicy")]
+        public static string GenerateRandomPassword(PasswordOptions opts = null)
+        {
+            if (opts == null) opts = new PasswordOptions()
+            {
+                RequiredLength = 8,
+                RequiredUniqueChars = 4,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireNonAlphanumeric = true,
+                RequireUppercase = true
+            };
+
+            string[] randomChars = new[] {
+        "ABCDEFGHJKLMNOPQRSTUVWXYZ",    // uppercase 
+        "abcdefghijkmnopqrstuvwxyz",    // lowercase
+        "0123456789",                   // digits
+        "!@$?_-"                        // non-alphanumeric
+    };
+            CryptoRandom rand = new CryptoRandom();
+            List<char> chars = new List<char>();
+
+            if (opts.RequireUppercase)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[0][rand.Next(0, randomChars[0].Length)]);
+
+            if (opts.RequireLowercase)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[1][rand.Next(0, randomChars[1].Length)]);
+
+            if (opts.RequireDigit)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[2][rand.Next(0, randomChars[2].Length)]);
+
+            if (opts.RequireNonAlphanumeric)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[3][rand.Next(0, randomChars[3].Length)]);
+
+            for (int i = chars.Count; i < opts.RequiredLength
+                || chars.Distinct().Count() < opts.RequiredUniqueChars; i++)
+            {
+                string rcs = randomChars[rand.Next(0, randomChars.Length)];
+                chars.Insert(rand.Next(0, chars.Count),
+                    rcs[rand.Next(0, rcs.Length)]);
+            }
+
+            return new string(chars.ToArray());
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(ApplicationUser user)
         {
@@ -87,81 +120,30 @@ namespace SecuringApps.Presentation.Controllers
             if (ModelState.IsValid)
             {
                 var role = _roleManager.FindByIdAsync(Input.Name).Result;
-                var newUser = new ApplicationUser { UserName = Input.Email, Email = Input.Email, isStudent = true };
-                var result = await _userManager.CreateAsync(newUser, Input.Password);
-
-                await _userManager.AddToRoleAsync(newUser, role.Name);
-                if (result.Succeeded)
+                if (role.Name == "Student")
                 {
+                    string randomPassword = GenerateRandomPassword();
+                    var newUser = new ApplicationUser { UserName = Input.Email, Email = Input.Email, isStudent = true  };
 
+                    var result = await _userManager.CreateAsync(newUser, randomPassword);
 
-                    ModelState.AddModelError(string.Empty, "User Created Successful");
-
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
+                    await _userManager.AddToRoleAsync(newUser, role.Name);
+                    if (result.Succeeded)
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                        ModelState.AddModelError(string.Empty, "User Created Successful");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
                     }
                 }
             }
-            // ViewData["roles"] = _roleManager.Roles.ToList();
+
             return View();
         }
     }
-    //public async Task OnGetAsync(string returnUrl = null)
-    //{
-    //    ViewData["roles"] = _roleManager.Roles.ToList();
-    //    ReturnUrl = returnUrl;
-    //    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-    //}
-
-    //public IActionResult Create()
-    //{
-    // returnUrl = returnUrl ?? Url.Content("~/");
-    //var role = _roleManager.FindByIdAsync(Input.Name).Result;
-    ////ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-    //if (ModelState.IsValid)
-    //{
-    //    var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-    //}
-    //    var result = await _userManager.CreateAsync(user, Input.Password);
-    //    if (result.Succeeded)
-    //    {
-    //        _logger.LogInformation("User created a new account with password.");
-    //        await _userManager.AddToRoleAsync(user, role.Name);
-    //        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-    //        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-    //        var callbackUrl = Url.Page(
-    //            "/Account/ConfirmEmail",
-    //            pageHandler: null,
-    //            values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-    //            protocol: Request.Scheme);
-
-    //        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-    //            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-    //        if (_userManager.Options.SignIn.RequireConfirmedAccount)
-    //        {
-    //            return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-    //        }
-    //        else
-    //        {
-    //            await _signInManager.SignInAsync(user, isPersistent: false);
-    //            return LocalRedirect(returnUrl);
-    //        }
-    //    }
-    //    foreach (var error in result.Errors)
-    //    {
-    //        ModelState.AddModelError(string.Empty, error.Description);
-    //    }
-    //}
-
-
-    // If we got this far, something failed, redisplay form
-    //return Page();
-    //return View();
-    //}
 }
 
