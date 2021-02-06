@@ -2,9 +2,6 @@
 using SecuringApps.Application.ViewModels;
 using SecuringApps.Domain.Interfaces;
 using SecuringApps.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SecuringApps.Application.Services
 {

@@ -64,6 +64,7 @@ namespace SecuringApps.Presentation
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
+     
 
             });
 

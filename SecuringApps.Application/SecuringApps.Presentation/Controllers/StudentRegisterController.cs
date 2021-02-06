@@ -9,6 +9,8 @@ using SecuringApps.Presentation.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace SecuringApps.Presentation.Controllers
@@ -52,16 +54,6 @@ namespace SecuringApps.Presentation.Controllers
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
-            public string Password { get; set; }
-
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
             public string Name { get; set; }
         }
 
@@ -123,14 +115,14 @@ namespace SecuringApps.Presentation.Controllers
                 if (role.Name == "Student")
                 {
                     string randomPassword = GenerateRandomPassword();
-                    var newUser = new ApplicationUser { UserName = Input.Email, Email = Input.Email, isStudent = true  };
+                    var newUser = new ApplicationUser { UserName = Input.Email, Email = Input.Email, isStudent = true };
 
                     var result = await _userManager.CreateAsync(newUser, randomPassword);
 
                     await _userManager.AddToRoleAsync(newUser, role.Name);
                     if (result.Succeeded)
                     {
-                        ModelState.AddModelError(string.Empty, "User Created Successful");
+                        SendEmail(newUser.UserName, newUser.Email, "Your login credentials are: \n Username: "+newUser.Email+" \n Password: " + randomPassword);
                     }
                     else
                     {
@@ -144,6 +136,44 @@ namespace SecuringApps.Presentation.Controllers
 
             return View();
         }
+        public string SendEmail(string Name, string Email, string Message)
+        {
+
+            var fromAddress = new MailAddress(_userManager.GetUserName(User));
+            var fromPassword = "Sukiedog123!";
+            var toAddress = new MailAddress(Email) ;
+
+            string subject = "Login Credential For Portal";
+            string body = Message ;
+            try
+            {
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                };
+
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+
+                    smtp.Send(message);
+                return "Email Sent Successfully";
+            }
+            catch (System.Exception e)
+            {
+                return e.Message;
+            }
+
+
+        }
     }
 }
+
 
