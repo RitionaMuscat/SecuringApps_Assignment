@@ -13,7 +13,6 @@ namespace SecuringApps.Presentation.Controllers
         {
             this.roleManager = roleManager;
         }
-
         public IActionResult Index()
         {
             return View();
