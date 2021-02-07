@@ -31,14 +31,11 @@ namespace SecuringApps.IOC
         {
 
             services.AddDbContext<SecuringAppsDBContext>(options =>
-            {
-                options.UseSqlServer(
-                 connectionString);//.UseLazyLoadingProxies();
-            }
-                );
+              options.UseSqlServer(connectionString
+                 ));
 
-            //services.AddScoped<IStudentTaskRepository, StudentTaskRepository>();
-            //services.AddScoped<IStudentTaskService, StudentTaskService>();
+            services.AddScoped<IStudentTaskRepository, StudentTaskRepository>();
+            services.AddScoped<IStudentTaskService, StudentTaskService>();
 
             services.AddScoped<IMembersRepository, MembersRepository>();
             services.AddScoped<IMembersService, MemberService>();

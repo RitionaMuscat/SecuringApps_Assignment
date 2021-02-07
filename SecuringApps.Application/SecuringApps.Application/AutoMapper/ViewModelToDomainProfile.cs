@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using SecuringApps.Application.ViewModels;
+using SecuringApps.Domain.Models;
 
 namespace SecuringApps.Application.AutoMapper
 {
@@ -7,7 +9,7 @@ namespace SecuringApps.Application.AutoMapper
         public ViewModelToDomainProfile()
         {
           //  CreateMap<ProductViewModel, Product>().ForMember(x=>x.Category, opt => opt.Ignore());
-           // CreateMap<CategoryViewModel, Category>();
+            CreateMap<StudentTaskViewModel, StudentTask>();
         }
     }
 }

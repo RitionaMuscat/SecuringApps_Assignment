@@ -1,4 +1,4 @@
-﻿@model SecuringApps.Domain.Models.StudentTask
+﻿@model CreateStudentTaskModel
 
 
 <!DOCTYPE html>
@@ -10,42 +10,42 @@
 </head>
 <body>
 
-<h4>Student Task</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FilePath" class="control-label"></label>
-                <input asp-for="FilePath" class="form-control" />
-                <span asp-validation-for="FilePath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Deadline" class="control-label"></label>
-                <input asp-for="Deadline" class="form-control" />
-                <span asp-validation-for="Deadline" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+    <h4>Student Task</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="StudentTask.Name" class="control-label"></label>
+                    <input asp-for="StudentTask.Name" class="form-control" />
+                    <span asp-validation-for="StudentTask.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StudentTask.Description" class="control-label"></label>
+                    <input asp-for="StudentTask.Description" class="form-control" />
+                    <span asp-validation-for="StudentTask.Description" class="text-danger"></span>
+                </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+                <div class="form-group">
+                    <label class="control-label">Select a local file</label>
+                    <input asp-for="StudentTask.FilePath" type="file" name="file" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="StudentTask.Deadline" class="control-label"></label>
+                    <input asp-for="StudentTask.Deadline" class="form-control" />
+                    <span asp-validation-for="StudentTask.Deadline" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
 </body>
 </html>
