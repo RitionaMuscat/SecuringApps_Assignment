@@ -24,12 +24,14 @@ namespace SecuringApps.Presentation.Controllers
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public StudentRegisterController(
+        public StudentRegisterController
+        (
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -70,11 +72,11 @@ namespace SecuringApps.Presentation.Controllers
             };
 
             string[] randomChars = new[] {
-        "ABCDEFGHJKLMNOPQRSTUVWXYZ",    // uppercase 
-        "abcdefghijkmnopqrstuvwxyz",    // lowercase
-        "0123456789",                   // digits
-        "!@$?_-"                        // non-alphanumeric
-    };
+                                            "ABCDEFGHJKLMNOPQRSTUVWXYZ",    // uppercase 
+                                            "abcdefghijkmnopqrstuvwxyz",    // lowercase
+                                            "0123456789",                   // digits
+                                            "!@$?_-"                        // non-alphanumeric
+            };
             CryptoRandom rand = new CryptoRandom();
             List<char> chars = new List<char>();
 

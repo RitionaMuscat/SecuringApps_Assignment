@@ -19,15 +19,13 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.Name"></label>
+                <label>Role</label>
                 <select asp-for="Input.Name" class="form-control" asp-items='new SelectList(roles,"Id","Name")'>
                 </select>
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
-    </div>
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
+
 
