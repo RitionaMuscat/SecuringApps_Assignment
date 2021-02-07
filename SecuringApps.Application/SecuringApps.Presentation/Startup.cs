@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using SecuringApps.IOC;
 using SecuringApps.Presentation.Data;
 using SecuringApps.Presentation.Models;
+using SecuringApps.Data.Context;
 
 namespace SecuringApps.Presentation
 {
@@ -29,6 +30,7 @@ namespace SecuringApps.Presentation
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
               .AddEntityFrameworkStores<ApplicationDbContext>()
                   .AddDefaultUI().AddDefaultTokenProviders();
@@ -36,7 +38,8 @@ namespace SecuringApps.Presentation
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddAuthorization(options => {
+            services.AddAuthorization(options =>
+            {
                 options.AddPolicy("readpolicy",
                     builder => builder.RequireRole("Student", "Manager", "User"));
                 options.AddPolicy("writepolicy",
@@ -58,14 +61,14 @@ namespace SecuringApps.Presentation
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
 
-               
+
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
-     
+
 
             });
 

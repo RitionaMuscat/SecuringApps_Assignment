@@ -7,9 +7,7 @@ using SecuringApps.Data;
 using SecuringApps.Application.Services;
 using SecuringApps.Data.Context;
 using SecuringApps.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SecuringApps.Data.Repositories;
 
 namespace SecuringApps.IOC
 {
@@ -39,11 +37,8 @@ namespace SecuringApps.IOC
             }
                 );
 
-            //services.AddScoped<IProductsRepository, ProductsRepository>();
-            //services.AddScoped<IProductsService, ProductsService>();
-
-            //services.AddScoped<ICategoryRepository, CategoriesRepository>();
-            //services.AddScoped<ICategoriesService, CategoriesService>();
+            //services.AddScoped<IStudentTaskRepository, StudentTaskRepository>();
+            //services.AddScoped<IStudentTaskService, StudentTaskService>();
 
             services.AddScoped<IMembersRepository, MembersRepository>();
             services.AddScoped<IMembersService, MemberService>();

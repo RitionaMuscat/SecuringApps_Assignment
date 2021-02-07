@@ -14,13 +14,13 @@ namespace SecuringApps.Data.Context
         }
 
         public DbSet<Member> Members { get; set; }
-
+        public DbSet<StudentTask> StudentTask { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
              modelBuilder.Entity<Member>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
-            //modelBuilder.Entity<Category>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<StudentTask>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
 
         }
 
