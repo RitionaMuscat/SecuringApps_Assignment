@@ -12,5 +12,7 @@ namespace SecuringApps.Domain.Models
         public string FilePath { get; set; }
         public DateTime Deadline { get; set; }
 
+        public string DocumentOwner {get; set;}
+
     }
 }

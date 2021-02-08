@@ -12,18 +12,28 @@ namespace SecuringApps.Presentation.Controllers
     public class StudentTaskController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+
         private IStudentTaskService _IStudentTaskService;
         private IWebHostEnvironment _env;
         public StudentTaskController
         (
             RoleManager<IdentityRole> roleManager,
+                UserManager<ApplicationUser> userManager,
             IStudentTaskService studentTaskService,
             IWebHostEnvironment env
         )
         {
             _IStudentTaskService = studentTaskService;
+            _userManager = userManager;
             _roleManager = roleManager;
             _env = env;
+        }
+        [HttpGet]
+        public IActionResult Index()
+        {
+            var list = _IStudentTaskService.GetStudentTask();
+            return View(list);
         }
 
         [Authorize(Policy = "writepolicy")]
@@ -44,16 +54,20 @@ namespace SecuringApps.Presentation.Controllers
                     {
                         ModelState.AddModelError(string.Empty, "The file path that can be uploaded should be pdf");
                     }
+                    else if (createStudentTask.StudentTask.Deadline <= DateTime.Now)
+                    {
+                        ModelState.AddModelError(string.Empty, "Deadline should be greater than today's date");
+                    }
                     else if (file.Length > 0)
                     {
                         string newFilename = Guid.NewGuid() + System.IO.Path.GetExtension(file.FileName);
                         string absolutePath = _env.WebRootPath + @"\Files\";
-                        
+
                         using (var stream = System.IO.File.Create(absolutePath + newFilename))
                         {
                             file.CopyTo(stream);
                         }
-                        
+                        createStudentTask.StudentTask.DocumentOwner = _userManager.GetUserName(User);
                         createStudentTask.StudentTask.FilePath = @"\Files\" + newFilename; //relative Path
                         if (ModelState.IsValid)
                         {

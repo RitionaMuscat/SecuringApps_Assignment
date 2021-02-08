@@ -13,6 +13,7 @@ namespace SecuringApps.Application.ViewModels
         public string Description { get; set; }
         public string FilePath { get; set; }
         public DateTime Deadline { get; set; }
+        public string DocumentOwner { get; set; }
 
     }
 }

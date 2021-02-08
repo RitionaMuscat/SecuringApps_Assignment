@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SecuringApps.Presentation.Models;
 using System.Collections.Generic;
@@ -124,7 +125,7 @@ namespace SecuringApps.Presentation.Controllers
                     await _userManager.AddToRoleAsync(newUser, role.Name);
                     if (result.Succeeded)
                     {
-                        SendEmail(newUser.UserName, newUser.Email, "Your login credentials are: \n Username: "+newUser.Email+" \n Password: " + randomPassword);
+                        SendEmail(newUser.UserName, newUser.Email, "Your login credentials are: \n Username: " + newUser.Email + " \n Password: " + randomPassword);
                     }
                     else
                     {
@@ -141,22 +142,22 @@ namespace SecuringApps.Presentation.Controllers
         public string SendEmail(string Name, string Email, string Message)
         {
 
-            var fromAddress = new MailAddress(_userManager.GetUserName(User));
-            var fromPassword = "Sukiedog123!";
-            var toAddress = new MailAddress(Email) ;
+
+ 
+            var toAddress = new MailAddress(Email);
 
             string subject = "Login Credential For Portal";
-            string body = Message ;
+            string body = Message;
             try
             {
-                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
+                var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+                var config = builder.Build();
+                var fromAddress = new MailAddress(config["Smtp:Username"]);
+                var smtp = new SmtpClient(config["Smtp:Host"])
                 {
-                    Host = "smtp.gmail.com",
-                    Port = 587,
+                    Port = int.Parse(config["Smtp:Port"]),
+                    Credentials = new NetworkCredential(config["Smtp:Username"], config["Smtp:Password"]),
                     EnableSsl = true,
-                    DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
                 };
 
                 using (var message = new MailMessage(fromAddress, toAddress)

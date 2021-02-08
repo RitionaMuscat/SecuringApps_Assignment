@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using SecuringApps.Application.Interfaces;
 using SecuringApps.Application.ViewModels;
 using SecuringApps.Domain.Interfaces;
 using SecuringApps.Domain.Models;
 using System;
+using System.Linq;
 
 namespace SecuringApps.Application.Services
 {
@@ -34,6 +36,11 @@ namespace SecuringApps.Application.Services
 
         }
 
+        public IQueryable<StudentTaskViewModel> GetStudentTask()
+        {
+            return _studentTaskRepo.GetStudentTask().ProjectTo<StudentTaskViewModel>(_autoMapper.ConfigurationProvider);
+
+        }
     }
 }
 

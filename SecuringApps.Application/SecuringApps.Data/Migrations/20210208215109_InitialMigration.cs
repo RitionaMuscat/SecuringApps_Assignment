@@ -30,7 +30,8 @@ namespace SecuringApps.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     FilePath = table.Column<string>(nullable: true),
-                    Deadline = table.Column<DateTime>(nullable: false)
+                    Deadline = table.Column<DateTime>(nullable: false),
+                    DocumentOwner = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

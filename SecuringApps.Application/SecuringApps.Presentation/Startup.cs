@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SecuringApps.IOC;
 using SecuringApps.Presentation.Data;
 using SecuringApps.Presentation.Models;
+using Microsoft.Extensions.Hosting;
 
 namespace SecuringApps.Presentation
 {
@@ -63,6 +64,7 @@ namespace SecuringApps.Presentation
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
+                
 
 
             });
@@ -72,9 +74,18 @@ namespace SecuringApps.Presentation
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseExceptionHandler("/Home/Error");
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts();
+                app.UseHsts();
+            }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

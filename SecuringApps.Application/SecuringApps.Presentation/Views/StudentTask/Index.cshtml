@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SecuringApps.Application.ViewModels.StudentTaskViewModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    @foreach (var product in Model)
+    {
+<div class="col-md-4">
+    <div class="card" style="width: 18rem;">
+        <img src="@product.Name" class="card-img-top card-image" alt="@product.Name">
+        <div class="card-body">
+            <h5 class="card-title">@product.Name</h5>
+            <h6 class="card-title">@product.Description</h6>
+            <h6 class="card-title">@product.Deadline</h6>
+
+
+            <p class="card-text">€@product.Description</p>
+            <a href="/Products/Details?id=@product.Id" class="btn btn-primary">View Specifications</a>
+            <a href="/Products/Delete?id=@product.Id" onclick="return window.confirm('Are you sure?')" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+</div>}
+</body>
+</html>

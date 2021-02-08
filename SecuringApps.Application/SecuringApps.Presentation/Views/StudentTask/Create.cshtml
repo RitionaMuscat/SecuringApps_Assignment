@@ -15,13 +15,13 @@
             <form asp-action="Create" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="StudentTask.Name" class="control-label"></label>
+                    <label class="control-label">Task Name</label>
                     <input asp-for="StudentTask.Name" class="form-control" />
                     <span asp-validation-for="StudentTask.Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="StudentTask.Description" class="control-label"></label>
-                    <input asp-for="StudentTask.Description" class="form-control" />
+                    <label class="control-label">Description</label>
+                    <textarea asp-for="StudentTask.Description" class="form-control" ></textarea>
                     <span asp-validation-for="StudentTask.Description" class="text-danger"></span>
                 </div>
 

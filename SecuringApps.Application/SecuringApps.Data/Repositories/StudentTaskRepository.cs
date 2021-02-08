@@ -37,12 +37,12 @@ namespace SecuringApps.Data.Repositories
 
         public StudentTask GetStudentTask(Guid id)
         {
-            return _context.StudentTask.Include(x => x.Name).SingleOrDefault(x => x.Id == id);
+            return _context.StudentTask.SingleOrDefault(x => x.Id == id);
         }
 
         public IQueryable<StudentTask> GetStudentTask()
         {
-            return _context.StudentTask.Include(x => x.Name);
+            return _context.StudentTask;
         }
     }
 }

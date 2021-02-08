@@ -10,6 +10,7 @@ namespace SecuringApps.Application.AutoMapper
         {
           //  CreateMap<ProductViewModel, Product>().ForMember(x=>x.Category, opt => opt.Ignore());
             CreateMap<StudentTaskViewModel, StudentTask>();
+
         }
     }
 }
