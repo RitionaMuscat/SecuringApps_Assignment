@@ -59,15 +59,47 @@ namespace SecuringApps.Data.Migrations
                     b.Property<string>("DocumentOwner")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FilePath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("StudentTask");
+                });
+
+            modelBuilder.Entity("SecuringApps.Domain.Models.StudentWork", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("filePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("submittedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("workOwner")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("StudentWork");
+                });
+
+            modelBuilder.Entity("SecuringApps.Domain.Models.StudentWork", b =>
+                {
+                    b.HasOne("SecuringApps.Domain.Models.StudentTask", "StudentTask")
+                        .WithMany()
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

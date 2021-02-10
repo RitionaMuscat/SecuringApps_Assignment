@@ -11,7 +11,6 @@ namespace SecuringApps.Application.ViewModels
         [Required(ErrorMessage = "Please input name of Task")]
         public string Name { get; set; }
         public string Description { get; set; }
-        public string FilePath { get; set; }
         public DateTime Deadline { get; set; }
         public string DocumentOwner { get; set; }
 

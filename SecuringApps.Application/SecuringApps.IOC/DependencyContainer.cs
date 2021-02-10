@@ -37,6 +37,9 @@ namespace SecuringApps.IOC
             services.AddScoped<IStudentTaskRepository, StudentTaskRepository>();
             services.AddScoped<IStudentTaskService, StudentTaskService>();
 
+            services.AddScoped<IStudentWorkRepository, StudentWorkRepository>();
+            services.AddScoped<IStudentWorkService, StudentWorkService>();
+
             services.AddScoped<IMembersRepository, MembersRepository>();
             services.AddScoped<IMembersService, MemberService>();
 

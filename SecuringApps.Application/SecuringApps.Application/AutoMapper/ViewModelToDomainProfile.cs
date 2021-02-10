@@ -8,7 +8,7 @@ namespace SecuringApps.Application.AutoMapper
     {
         public ViewModelToDomainProfile()
         {
-          //  CreateMap<ProductViewModel, Product>().ForMember(x=>x.Category, opt => opt.Ignore());
+            CreateMap<StudentWorkViewModel, StudentWork>().ForMember(x=>x.TaskId, opt => opt.Ignore());
             CreateMap<StudentTaskViewModel, StudentTask>();
 
         }

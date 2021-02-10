@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SecuringApps.Application.Interfaces;
@@ -43,47 +42,35 @@ namespace SecuringApps.Presentation.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CreateStudentTaskModel createStudentTask, IFormFile file)
+        public IActionResult Create(CreateStudentTaskModel createStudentTask)
         {
-            var GetExtension = System.IO.Path.GetExtension(file.FileName);
             try
             {
-                if (file != null)
+                if (createStudentTask.StudentTask.Deadline <= DateTime.Now)
                 {
-                    if (GetExtension != ".pdf")
+                    ModelState.AddModelError(string.Empty, "Deadline should be greater than today's date");
+                }
+                else
+                {
+                    createStudentTask.StudentTask.DocumentOwner = _userManager.GetUserName(User);
+                    if (ModelState.IsValid)
                     {
-                        ModelState.AddModelError(string.Empty, "The file path that can be uploaded should be pdf");
-                    }
-                    else if (createStudentTask.StudentTask.Deadline <= DateTime.Now)
-                    {
-                        ModelState.AddModelError(string.Empty, "Deadline should be greater than today's date");
-                    }
-                    else if (file.Length > 0)
-                    {
-                        string newFilename = Guid.NewGuid() + System.IO.Path.GetExtension(file.FileName);
-                        string absolutePath = _env.WebRootPath + @"\Files\";
-
-                        using (var stream = System.IO.File.Create(absolutePath + newFilename))
-                        {
-                            file.CopyTo(stream);
-                        }
-                        createStudentTask.StudentTask.DocumentOwner = _userManager.GetUserName(User);
-                        createStudentTask.StudentTask.FilePath = @"\Files\" + newFilename; //relative Path
-                        if (ModelState.IsValid)
-                        {
-                            _IStudentTaskService.AddStudentTask(createStudentTask.StudentTask);
-                        }
+                        _IStudentTaskService.AddStudentTask(createStudentTask.StudentTask);
                     }
                 }
+
             }
             catch (Exception ex)
             {
                 var exception = ex.Message;
+                ModelState.AddModelError(string.Empty, exception);
                 return RedirectToAction("Error", "Home");
             }
 
             CreateStudentTaskModel model = new CreateStudentTaskModel();
             return View();
         }
+
+
     }
 }

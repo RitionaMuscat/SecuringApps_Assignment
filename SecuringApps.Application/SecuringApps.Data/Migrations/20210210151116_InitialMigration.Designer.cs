@@ -10,7 +10,7 @@ using SecuringApps.Data.Context;
 namespace SecuringApps.Data.Migrations
 {
     [DbContext(typeof(SecuringAppsDBContext))]
-    [Migration("20210208215109_InitialMigration")]
+    [Migration("20210210151116_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,15 +61,47 @@ namespace SecuringApps.Data.Migrations
                     b.Property<string>("DocumentOwner")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FilePath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("StudentTask");
+                });
+
+            modelBuilder.Entity("SecuringApps.Domain.Models.StudentWork", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("filePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("submittedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("workOwner")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("StudentWork");
+                });
+
+            modelBuilder.Entity("SecuringApps.Domain.Models.StudentWork", b =>
+                {
+                    b.HasOne("SecuringApps.Domain.Models.StudentTask", "StudentTask")
+                        .WithMany()
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

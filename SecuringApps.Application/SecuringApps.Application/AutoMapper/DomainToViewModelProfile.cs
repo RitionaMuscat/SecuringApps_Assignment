@@ -9,9 +9,7 @@ namespace SecuringApps.Application.AutoMapper
         public DomainToViewModelProfile()
         {
             CreateMap<StudentTask, StudentTaskViewModel>();
-          //  CreateMap<Category, CategoryViewModel>();
-            //Product class was used to model the database
-            //ProductViewModel class was used to pass on the data to/from the Presentation project/layer
+            CreateMap<StudentWork, StudentWorkViewModel>();
         }
 
     }
