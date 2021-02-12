@@ -15,6 +15,7 @@ namespace SecuringApps.Data.Context
 
         public DbSet<Member> Members { get; set; }
         public DbSet<StudentWork> StudentWork { get; set; }
+        public DbSet<Comments> Comments { get; set; }
         public DbSet<StudentTask> StudentTask { get; set; }
 
 
@@ -25,7 +26,7 @@ namespace SecuringApps.Data.Context
              modelBuilder.Entity<Member>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<StudentTask>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<StudentWork>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
-
+            modelBuilder.Entity<Comments>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

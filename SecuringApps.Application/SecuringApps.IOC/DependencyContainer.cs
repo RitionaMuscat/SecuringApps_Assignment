@@ -43,6 +43,9 @@ namespace SecuringApps.IOC
             services.AddScoped<IMembersRepository, MembersRepository>();
             services.AddScoped<IMembersService, MemberService>();
 
+            services.AddScoped<ICommentsRepository, CommentsRepository>();
+            services.AddScoped<ICommentsService, CommentsService>();
+
             services.AddAutoMapper(typeof(AutoMapperConfiguration));
             AutoMapperConfiguration.RegisterMappings();
 

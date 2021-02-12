@@ -17,7 +17,7 @@ namespace SecuringApps.Presentation.Controllers
         {
             return View();
         }
-        [Authorize(Policy = "writepolicy")]
+        [Authorize(Roles = "Teacher")]
         public IActionResult Create()
         {
             return View(new IdentityRole());

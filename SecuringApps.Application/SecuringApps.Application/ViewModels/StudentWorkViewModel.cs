@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SecuringApps.Application.ViewModels
 {
-   public  class StudentWorkViewModel
+    public  class StudentWorkViewModel
     {
         public Guid Id { get; set; }
         public string filePath { get; set; }

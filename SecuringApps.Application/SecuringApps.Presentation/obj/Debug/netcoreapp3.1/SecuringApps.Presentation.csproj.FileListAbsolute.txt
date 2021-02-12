@@ -196,3 +196,8 @@ C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringA
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\SecuringApps.Presentation.dll
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\SecuringApps.Presentation.pdb
 C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\SecuringApps.Presentation.genruntimeconfig.cache
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Views\StudentWork\Index.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Views\StudentWork\AllStudentWork.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Views\Comments\Create.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Views\Shared\DetailsPartialView.cshtml.g.cs
+C:\Users\Dell\Desktop\Mcast Degree\Securing Application\HomeAssignment\SecuringApps\SecuringApps.Application\SecuringApps.Presentation\obj\Debug\netcoreapp3.1\Razor\Views\Comments\Index.cshtml.g.cs

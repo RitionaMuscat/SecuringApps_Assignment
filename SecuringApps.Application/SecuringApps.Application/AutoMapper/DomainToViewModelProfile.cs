@@ -10,6 +10,7 @@ namespace SecuringApps.Application.AutoMapper
         {
             CreateMap<StudentTask, StudentTaskViewModel>();
             CreateMap<StudentWork, StudentWorkViewModel>();
+            CreateMap<Comments, CommentsViewModel>();
         }
 
     }

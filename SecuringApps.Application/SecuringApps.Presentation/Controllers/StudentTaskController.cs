@@ -35,7 +35,7 @@ namespace SecuringApps.Presentation.Controllers
             return View(list);
         }
 
-        [Authorize(Policy = "writepolicy")]
+        [Authorize(Roles = "Teacher")]
         public IActionResult Create()
         {
             CreateStudentTaskModel model = new CreateStudentTaskModel();

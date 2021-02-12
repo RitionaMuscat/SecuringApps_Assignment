@@ -41,7 +41,7 @@ namespace SecuringApps.Presentation.Controllers
             _roleManager = roleManager;
         }
 
-        [Authorize(Policy = "writepolicy")]
+        [Authorize(Roles  = "Teacher")]
         public IActionResult Create()
         {
             ViewData["roles"] = _roleManager.Roles.ToList();

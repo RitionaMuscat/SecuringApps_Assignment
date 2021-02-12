@@ -13,15 +13,17 @@
     </p>
     @foreach (var task in Model)
     {
-<div class="col-md-4">
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">@task.Name</h5>
-            <h6 class="card-title">@task.Description</h6>
-            <p class="card-title">@task.Deadline</p>
-            <a href="StudentWork/Create?id=@task.Id" class="btn btn-primary">Submit Work</a>
-   </div>
-    </div>
-</div>}
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@task.Name</h5>
+                    <h6 class="card-title">@task.Description</h6>
+                    <p class="card-title">@task.Deadline</p>
+                    <a href="StudentWork/Create?id=@task.Id" class="btn btn-primary">Submit Work</a>
+                </div>
+            </div>
+        </div>}
+
+    <a href="StudentWork/AllStudentWork" class="btn btn-primary">Show Submitted Work</a>
 </body>
 </html>

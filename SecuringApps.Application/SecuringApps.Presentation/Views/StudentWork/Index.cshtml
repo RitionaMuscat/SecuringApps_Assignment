@@ -1,0 +1,31 @@
+﻿@model IEnumerable<SecuringApps.Application.ViewModels.StudentWorkViewModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    @foreach (var task in Model)
+    {
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@task.StudentTask.Name</h5>
+                    <p class="card-title">@task.submittedOn</p>
+                    <a class="card-title">@task.filePath</a>
+                    <a href="Comments/Create?id=@task.Id" class="btn btn-primary">Comment</a>
+                </div>
+            </div>
+        </div>
+     
+    }
+
+
+</body>
+</html>

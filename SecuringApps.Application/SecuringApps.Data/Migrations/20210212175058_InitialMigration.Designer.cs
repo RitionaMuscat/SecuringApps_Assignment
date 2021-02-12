@@ -10,7 +10,7 @@ using SecuringApps.Data.Context;
 namespace SecuringApps.Data.Migrations
 {
     [DbContext(typeof(SecuringAppsDBContext))]
-    [Migration("20210210151116_InitialMigration")]
+    [Migration("20210212175058_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,32 @@ namespace SecuringApps.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("SecuringApps.Domain.Models.Comments", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("writtenBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("writtenOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("Comments");
+                });
 
             modelBuilder.Entity("SecuringApps.Domain.Models.Member", b =>
                 {
@@ -93,6 +119,15 @@ namespace SecuringApps.Data.Migrations
                     b.HasIndex("TaskId");
 
                     b.ToTable("StudentWork");
+                });
+
+            modelBuilder.Entity("SecuringApps.Domain.Models.Comments", b =>
+                {
+                    b.HasOne("SecuringApps.Domain.Models.StudentWork", "StudentWork")
+                        .WithMany()
+                        .HasForeignKey("WorkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SecuringApps.Domain.Models.StudentWork", b =>

@@ -19,6 +19,32 @@ namespace SecuringApps.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("SecuringApps.Domain.Models.Comments", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("writtenBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("writtenOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("SecuringApps.Domain.Models.Member", b =>
                 {
                     b.Property<Guid>("Id")
@@ -91,6 +117,15 @@ namespace SecuringApps.Data.Migrations
                     b.HasIndex("TaskId");
 
                     b.ToTable("StudentWork");
+                });
+
+            modelBuilder.Entity("SecuringApps.Domain.Models.Comments", b =>
+                {
+                    b.HasOne("SecuringApps.Domain.Models.StudentWork", "StudentWork")
+                        .WithMany()
+                        .HasForeignKey("WorkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SecuringApps.Domain.Models.StudentWork", b =>

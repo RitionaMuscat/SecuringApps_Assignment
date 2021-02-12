@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,17 +26,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-
                         @if (SignInManager.IsSignedIn(User))
                         {
+
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Create">Role</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="StudentWork" asp-action="Index">Work</a>
                             </li>
+                            @*<li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Create">Role</a>
+            </li>*@
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="StudentRegister" asp-action="Create">Student Registration</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="StudentRegister" asp-action="Create">Student Creation</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="StudentTask" asp-action="Create">Create Task</a>

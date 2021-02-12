@@ -58,6 +58,32 @@ namespace SecuringApps.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
+                    comment = table.Column<string>(nullable: true),
+                    writtenBy = table.Column<string>(nullable: true),
+                    writtenOn = table.Column<DateTime>(nullable: false),
+                    WorkId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_StudentWork_WorkId",
+                        column: x => x.WorkId,
+                        principalTable: "StudentWork",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_WorkId",
+                table: "Comments",
+                column: "WorkId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_StudentWork_TaskId",
                 table: "StudentWork",
@@ -66,6 +92,9 @@ namespace SecuringApps.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Comments");
+
             migrationBuilder.DropTable(
                 name: "Members");
 
