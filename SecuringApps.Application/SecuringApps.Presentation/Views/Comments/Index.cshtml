@@ -1,11 +1,23 @@
 ﻿@model IEnumerable<SecuringApps.Application.ViewModels.CommentsViewModel>
 
-<h1>Details</h1>
+<h1>Comments on Task</h1>
 
 <div>
-    <hr />
-    <partial name="DetailsPartialView" />
+    @foreach (var task in Model)
+    {
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@task.comment</h5>
+                    <h5 class="card-title">@task.StudentWork.filePath</h5>
+                    <p class="card-title">@task.writtenOn</p>
+                    <a class="card-title">@task.writtenBy</a>
 
+                </div>
+            </div>
+        </div>
+
+    }
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |

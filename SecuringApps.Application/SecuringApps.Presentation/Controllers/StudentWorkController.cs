@@ -3,12 +3,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SecuringApps.Application.Interfaces;
 using SecuringApps.Presentation.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace SecuringApps.Presentation.Controllers
@@ -34,7 +39,7 @@ namespace SecuringApps.Presentation.Controllers
         }
         [Authorize(Roles = "Student")]
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(Guid Id)
         {
             var student = _studentWorkService.GetStudentWork();
             var getStudentWork = from a in student
@@ -155,47 +160,43 @@ namespace SecuringApps.Presentation.Controllers
             }
             return View(model);
         }
-        [HttpGet]
-        public async Task<IActionResult> download(string filename)
+
+        public IActionResult DownloadFile(Guid id)
         {
-            if (filename == null)
-                return Content("filename not present");
+            var _files = _studentWorkService.GetStudentWork();
+            var file = _files.Where(x => x.Id == id).FirstOrDefault();
+            var filename = file.filePath.Substring(7);
 
-            var path = Path.Combine(
-                           Directory.GetCurrentDirectory(),
-                           "wwwroot", filename);
+            WebClient webClient = new WebClient();
 
-            var memory = new MemoryStream();
-            using (var stream = new FileStream(path, FileMode.Open))
+            webClient.DownloadFileCompleted += (sender, e) =>
             {
-                await stream.CopyToAsync(memory);
-            }
-            memory.Position = 0;
-            return File(memory, GetContentType(path), Path.GetFileName(path));
-        }
-        private string GetContentType(string path)
-        {
-            var types = GetMimeTypes();
-            var ext = Path.GetExtension(path).ToLowerInvariant();
-            return types[ext];
-        }
-        private Dictionary<string, string> GetMimeTypes()
-        {
-            return new Dictionary<string, string>
-            {
-                {".txt", "text/plain"},
-                {".pdf", "application/pdf"},
-                {".doc", "application/vnd.ms-word"},
-                {".docx", "application/vnd.ms-word"},
-                {".xls", "application/vnd.ms-excel"},
-
-                {".png", "image/png"},
-                {".jpg", "image/jpeg"},
-                {".jpeg", "image/jpeg"},
-                {".gif", "image/gif"},
-                {".csv", "text/csv"}
+                if (e.Error == null & !e.Cancelled)
+                {
+                    Debug.WriteLine(@"Download completed!");
+                }
             };
+
+            var url = new Uri(_env.WebRootPath + file.filePath);
+
+            try
+            {
+                webClient.OpenRead(url);
+
+                Debug.WriteLine(filename);
+
+                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
+                webClient.DownloadFileAsync(url, path);
+            }
+            catch (Exception ex)
+            {
+                var err = ex.Message;
+            }
+
+            return View();
+
         }
     }
 }
+
 

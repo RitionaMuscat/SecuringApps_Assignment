@@ -32,9 +32,11 @@ namespace SecuringApps.Presentation.Controllers
         public IActionResult Index()
         {
             var _comments = _commentService.GetComments();
-            var getCommentsWork = from a in _comments
-                                  select a;
-            return View(getCommentsWork);
+            var _studentWork = _studentWorkService.GetStudentWork();
+            var _work = from a in _comments
+                        select a;
+
+            return View(_work.ToList());
 
         }
 
@@ -83,7 +85,11 @@ namespace SecuringApps.Presentation.Controllers
         public IActionResult DetailsPartialView()
         {
             var Comments = _commentService.GetComments();
-            return View(Comments);
+            var _comments = _commentService.GetComments();
+            var getCommentsWork = from a in _comments
+                                  select a;
+            return View(getCommentsWork);
+         //   return View(Comments);
         }
     }
 }
