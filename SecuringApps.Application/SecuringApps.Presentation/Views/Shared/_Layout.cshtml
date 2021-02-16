@@ -28,13 +28,9 @@
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
-
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="StudentWork" asp-action="Index">Work</a>
                             </li>
-                            @*<li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Create">Role</a>
-            </li>*@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="StudentRegister" asp-action="Create">Student Creation</a>
                             </li>
@@ -58,7 +54,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - SecuringApps - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - SecuringApps
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -37,20 +37,16 @@ namespace SecuringApps.Presentation.Controllers
         [HttpGet]
         public IActionResult Index(Guid Id)
         {
-            var student = _studentWorkService.GetStudentWork();
-            var getStudentWork = from a in student
-                                 where a.workOwner.Equals(_userManager.GetUserId(User))
-                                 select a;
+            var _studentWork = _studentWorkService.GetStudentWork();
+            var getStudentWork = _studentWork.Where(x => x.workOwner == _userManager.GetUserId(User) || x.workOwner == _userManager.GetUserName(User));
             return View(getStudentWork.ToList());
         }
         [Authorize(Roles = "Teacher")]
         [HttpGet]
         public IActionResult AllStudentWork()
         {
-            var student = _studentWorkService.GetStudentWork();
-            var getStudentWork = from a in student
-                                 select a;
-            return View(getStudentWork.ToList());
+            var allStudent = _studentWorkService.GetStudentWork();
+            return View(allStudent.ToList());
         }
 
 
@@ -60,9 +56,7 @@ namespace SecuringApps.Presentation.Controllers
         public IActionResult Create(Guid Id)
         {
             var taskList = _studentTaskService.GetStudentTask();
-            var value = from i in taskList
-                        where i.Id.Equals(Id)
-                        select i;
+            var value = taskList.Where(x => x.Id == Id );
 
             CreateStudentWorkModel model = new CreateStudentWorkModel();
             model.StudentTasks = value.ToList();
@@ -75,9 +69,7 @@ namespace SecuringApps.Presentation.Controllers
         {
             CreateStudentWorkModel model = new CreateStudentWorkModel();
             model.StudentTasks = _studentTaskService.GetStudentTask().ToList();
-            var value = from a in model.StudentTasks
-                        where a.Id.Equals(data.StudentWork.StudentTask.Id)
-                        select a;
+            var value = model.StudentTasks.Where(x => x.Id == data.StudentWork.StudentTask.Id);
 
             try
             {
@@ -86,11 +78,12 @@ namespace SecuringApps.Presentation.Controllers
                     if (System.IO.Path.GetExtension(file.FileName) == ".pdf")
                     {
                         data.StudentWork.submittedOn = DateTime.Now;
+                  
                         var StudentTask = _studentTaskService.GetStudentTask().ToList();
                         var val = from a in StudentTask
                                   where a.Id.Equals(data.StudentWork.StudentTask.Id)
                                   select a;
-
+                  
                         var StudentWork = _studentWorkService.GetStudentWork().ToList();
                         var vals = from v in StudentWork
                                    where v.StudentTask.Id.Equals(data.StudentWork.StudentTask.Id) && v.workOwner.Equals(_userManager.GetUserId(User))
@@ -124,7 +117,7 @@ namespace SecuringApps.Presentation.Controllers
                                     CompareFileHashes(newFilename);
 
                                     data.StudentWork.filePath = @"\Files\" + newFilename; //relative Path
-                                    data.StudentWork.workOwner = _userManager.GetUserId(User);
+                                    data.StudentWork.workOwner = _userManager.GetUserName(User);
 
                                     _studentWorkService.AddStudentWork(data.StudentWork);
                                     break;
@@ -160,6 +153,7 @@ namespace SecuringApps.Presentation.Controllers
         public IActionResult DownloadFile(Guid id)
         {
             var _files = _studentWorkService.GetStudentWork();
+
             var file = _files.Where(x => x.Id == id).FirstOrDefault();
             var filename = file.filePath.Substring(7);
 
@@ -192,32 +186,6 @@ namespace SecuringApps.Presentation.Controllers
             return View();
 
         }
-        public bool FileEquals(string pathFile, string pathFile2)
-        {
-            var getAllFiles = _studentWorkService.GetStudentWork();
-            var getFileName = from a in getAllFiles
-                              select a;
-            foreach (var item in getAllFiles)
-            {
-                IFormFile file;
-                byte[] file1 = System.IO.File.ReadAllBytes(pathFile);
-                byte[] file2 = System.IO.File.ReadAllBytes(item.filePath.Substring(7));
-                if (file1.Length == file2.Length)
-                {
-                    for (int i = 0; i < file1.Length; i++)
-                    {
-                        if (file1[i] != file2[i])
-                        {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         private void CompareFileHashes(string fileName1)
         {
 

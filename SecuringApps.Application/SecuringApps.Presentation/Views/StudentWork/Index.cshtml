@@ -1,33 +1,26 @@
 ﻿@model IEnumerable<SecuringApps.Application.ViewModels.StudentWorkViewModel>
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <title>My Work</title>
 </head>
 <body>
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
     @foreach (var task in Model)
     {
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">@task.StudentTask.Name</h5>
-                    <p class="card-title">@task.submittedOn</p>
-                    <a class="card-title">@task.filePath</a>
-                    <a href="Comments/Create?id=@task.Id" class="btn btn-primary">Comment</a>
-
-                </div>
+        <div class="card" >
+            <div class="card-body">
+                <h5 class="card-title">@task.StudentTask.Name</h5>
+                <p class="card-title">@task.submittedOn</p>
+                <a class="card-title">@task.filePath</a>
+                <p class="card-title">@task.workOwner</p>
+                <a href="Comments/Create?id=@task.Id" class="btn btn-primary">Comment</a>
             </div>
         </div>
-        <a href="Comments/Index" class="btn btn-primary">Show all Comments</a>
-
     }
-
-
+    <br />
+<div>
+    <a href="Comments/Index" class="btn btn-primary">Show all Comments</a>
+</div>
 </body>
 </html>

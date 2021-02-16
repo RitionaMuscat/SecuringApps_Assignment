@@ -24,6 +24,11 @@ a {
   border-color: #1861ac;
 }
 
+.card {
+    width: 30rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
