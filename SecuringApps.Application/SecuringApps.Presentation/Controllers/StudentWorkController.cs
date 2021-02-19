@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace SecuringApps.Presentation.Controllers
 {
@@ -56,7 +57,7 @@ namespace SecuringApps.Presentation.Controllers
         public IActionResult Create(Guid Id)
         {
             var taskList = _studentTaskService.GetStudentTask();
-            var value = taskList.Where(x => x.Id == Id );
+            var value = taskList.Where(x => x.Id == Id);
 
             CreateStudentWorkModel model = new CreateStudentWorkModel();
             model.StudentTasks = value.ToList();
@@ -78,15 +79,15 @@ namespace SecuringApps.Presentation.Controllers
                     if (System.IO.Path.GetExtension(file.FileName) == ".pdf")
                     {
                         data.StudentWork.submittedOn = DateTime.Now;
-                  
+
                         var StudentTask = _studentTaskService.GetStudentTask().ToList();
                         var val = from a in StudentTask
                                   where a.Id.Equals(data.StudentWork.StudentTask.Id)
                                   select a;
-                  
+
                         var StudentWork = _studentWorkService.GetStudentWork().ToList();
                         var vals = from v in StudentWork
-                                   where v.StudentTask.Id.Equals(data.StudentWork.StudentTask.Id) && v.workOwner.Equals(_userManager.GetUserId(User))
+                                   where v.StudentTask.Id.Equals(data.StudentWork.StudentTask.Id) && v.workOwner.Equals(_userManager.GetUserName(User))
                                    select v;
                         foreach (var item in val)
                         {
@@ -112,10 +113,12 @@ namespace SecuringApps.Presentation.Controllers
                                     using (var stream = System.IO.File.Create(absolutePath + newFilename))
                                     {
                                         file.CopyTo(stream);
+                                        CreateEncryptor(stream, "HR$2pIjHR$2pIj12");
                                     }
 
                                     CompareFileHashes(newFilename);
-
+                                    string encryptedfilename = Guid.NewGuid() + "ENCRYPT" + Path.GetExtension(file.FileName);
+                                    //CreateEncryptor(newFilename, encryptedfilename, "HR$2pIjHR$2pIj12");
                                     data.StudentWork.filePath = @"\Files\" + newFilename; //relative Path
                                     data.StudentWork.workOwner = _userManager.GetUserName(User);
 
@@ -220,8 +223,116 @@ namespace SecuringApps.Presentation.Controllers
             }
 
         }
+        public static void CreateEncryptor(Stream source, string password)
+        {
+            ICryptoTransform transform;
+      
+            try
+            {
+                byte[] SaltBytes = new byte[16];
+                RandomNumberGenerator.Fill(SaltBytes); //RandomNumberGenerator is used for .Net Core 3
 
+                AesManaged aes = new AesManaged();
+                aes.BlockSize = aes.LegalBlockSizes[0].MaxSize;
+                aes.KeySize = aes.LegalKeySizes[0].MaxSize;
+
+                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(password, SaltBytes, iterations);
+                aes.Key = key.GetBytes(aes.KeySize / 8);
+
+                byte[] IVBytes = new byte[aes.BlockSize / 8];
+                RandomNumberGenerator.Fill(IVBytes); //RandomNumberGenerator is used for .Net Core 3
+                aes.IV = IVBytes;
+
+                aes.Mode = CipherMode.CBC;
+                 transform = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                //Store/Send the Salt and IV - this can be shared. It's more important that it's very random, than being private.
+                source.WriteByte((byte)SaltBytes.Length);
+                source.Write(SaltBytes, 0, SaltBytes.Length);
+                source.WriteByte((byte)IVBytes.Length);
+                source.Write(IVBytes, 0, IVBytes.Length);
+                var cryptoStream = new CryptoStream(source, transform, CryptoStreamMode.Write);
+
+            }
+            catch (Exception ex)
+            {
+                var e = ex.Message;
+            }
+            source.Flush();
+
+            //return cryptoStream;
+        }
+
+        public static Stream CreateDecryptor(Stream source, string password)
+        {
+            var ArrayLength = source.ReadByte();
+            if (ArrayLength == -1) throw new Exception("Salt length not found");
+            byte[] SaltBytes = new byte[ArrayLength];
+            var readBytes = source.Read(SaltBytes, 0, ArrayLength);
+            if (readBytes != ArrayLength) throw new Exception("No support for multiple reads");
+
+            ArrayLength = source.ReadByte();
+            if (ArrayLength == -1) throw new Exception("Salt length not found");
+            byte[] IVBytes = new byte[ArrayLength];
+            readBytes = source.Read(IVBytes, 0, ArrayLength);
+            if (readBytes != ArrayLength) throw new Exception("No support for multiple reads");
+
+            AesManaged aes = new AesManaged();
+            aes.BlockSize = aes.LegalBlockSizes[0].MaxSize;
+            aes.KeySize = aes.LegalKeySizes[0].MaxSize;
+            aes.IV = IVBytes;
+
+            Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(password, SaltBytes, iterations);
+            aes.Key = key.GetBytes(aes.KeySize / 8);
+
+            aes.Mode = CipherMode.CBC;
+            ICryptoTransform transform = aes.CreateDecryptor(aes.Key, aes.IV);
+
+            var cryptoStream = new CryptoStream(source, transform, CryptoStreamMode.Read);
+            return cryptoStream;
+        }
+
+        public const int iterations = 1042; // Recommendation is >= 1000.
     }
+    /* private  void EncryptFile(string inputFile, string outputFile, string skey)
+     {
+         try
+         {
+             using (RijndaelManaged aes = new RijndaelManaged())
+             {
+
+                 byte[] key = ASCIIEncoding.UTF8.GetBytes(skey);
+                 int keySize = aes.KeySize;
+
+                 aes.BlockSize = 128;
+                  byte[] IV = ASCIIEncoding.UTF8.GetBytes(skey);
+                 var IVL = IV.Length;
+
+                 inputFile = _env.WebRootPath + @"\Files\" + inputFile;
+                 outputFile = _env.WebRootPath + @"\Files\" + outputFile;
+                 using (FileStream fsCrypt = new FileStream(outputFile, FileMode.Create))
+                 {
+                     using (ICryptoTransform encryptor = aes.CreateEncryptor(key, IV))
+                     {
+                         using (CryptoStream cs = new CryptoStream(fsCrypt, encryptor, CryptoStreamMode.Write))
+                         {
+                             using (FileStream fsIn = new FileStream(inputFile, FileMode.Open))
+                             {
+                                 int data;
+                                 while ((data = fsIn.ReadByte()) != -1)
+                                 {
+                                     cs.WriteByte((byte)data);
+                                 }
+                             }
+                         }
+                     }
+                 }
+             }
+         }
+         catch (Exception ex)
+         {
+             var e = ex.Message;
+         }
+     }*/
+
 }
-
-
