@@ -41,7 +41,8 @@ namespace SecuringApps.Presentation.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     LastLoggedIn = table.Column<DateTime>(nullable: false),
-                    isStudent = table.Column<bool>(nullable: false)
+                    isStudent = table.Column<bool>(nullable: false),
+                    createdBy = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

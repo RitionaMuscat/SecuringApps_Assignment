@@ -21,5 +21,13 @@ namespace SecuringApps.Presentation.Models
             set { _isStudent = value; }
         }
 
+        private string _createdBy;
+
+        public string createdBy
+        {
+            get { return _createdBy; }
+            set { _createdBy = value; }
+        }
+
     }
 }

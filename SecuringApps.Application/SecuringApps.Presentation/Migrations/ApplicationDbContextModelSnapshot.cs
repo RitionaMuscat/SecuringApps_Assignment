@@ -228,6 +228,9 @@ namespace SecuringApps.Presentation.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("isStudent")
                         .HasColumnType("bit");
 

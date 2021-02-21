@@ -10,7 +10,7 @@ using SecuringApps.Presentation.Data;
 namespace SecuringApps.Presentation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210206132528_InitialMigration")]
+    [Migration("20210221142805_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,6 +229,9 @@ namespace SecuringApps.Presentation.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+
+                    b.Property<string>("createdBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isStudent")
                         .HasColumnType("bit");

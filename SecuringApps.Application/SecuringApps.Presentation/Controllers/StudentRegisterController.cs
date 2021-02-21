@@ -118,7 +118,7 @@ namespace SecuringApps.Presentation.Controllers
                 if (role.Name == "Student")
                 {
                     string randomPassword = GenerateRandomPassword();
-                    var newUser = new ApplicationUser { UserName = Input.Email, Email = Input.Email, isStudent = true };
+                    var newUser = new ApplicationUser { UserName = Input.Email, Email = Input.Email, isStudent = true, createdBy = _userManager.GetUserId(User) };
 
                     var result = await _userManager.CreateAsync(newUser, randomPassword);
 

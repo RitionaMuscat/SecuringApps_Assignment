@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SecuringApps.Application.Interfaces;
 using SecuringApps.Presentation.Models;
 using System;
-
+using System.Linq;
 namespace SecuringApps.Presentation.Controllers
 {
     public class StudentTaskController : Controller
@@ -32,7 +32,32 @@ namespace SecuringApps.Presentation.Controllers
         public IActionResult Index()
         {
             var list = _IStudentTaskService.GetStudentTask();
-            return View(list);
+            var user = _userManager.GetUserId(User);
+            var getUser = _userManager.Users.Where(x => x.Id == _userManager.GetUserId(User)).ToList();
+            var id = getUser.Select(x => x.createdBy);
+
+            //var GetAllTasks = list.Where(y => y.DocumentOwner.Equals(getUser));
+            //var getUser = from a in _userManager.Users
+            //              where a.Id.Equals(user)
+            //              select a;
+            //var getTasks = (from l in list
+            //                where l.DocumentOwner.Equals(getUser)
+            //                select l).FirstOrDefault();
+
+            //var getTasks = list.Where(x => x.DocumentOwner.Equals(id));
+            //var getTasks =( from l in list
+            //               where l.DocumentOwner.Equals(id)
+            //               select l).ToList();
+
+            var getTasks = from l in list
+                           where id.Contains(l.DocumentOwner)
+                           select l;
+         
+            return View(getTasks);
+
+
+
+
         }
 
         [Authorize(Roles = "Teacher")]
@@ -52,7 +77,7 @@ namespace SecuringApps.Presentation.Controllers
                 }
                 else
                 {
-                    createStudentTask.StudentTask.DocumentOwner = _userManager.GetUserName(User);
+                    createStudentTask.StudentTask.DocumentOwner = _userManager.GetUserId(User);
                     if (ModelState.IsValid)
                     {
                         _IStudentTaskService.AddStudentTask(createStudentTask.StudentTask);
