@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace SecuringApps.Presentation.Controllers
 {
@@ -47,7 +46,8 @@ namespace SecuringApps.Presentation.Controllers
         public IActionResult AllStudentWork()
         {
             var allStudent = _studentWorkService.GetStudentWork();
-            return View(allStudent.ToList());
+        
+            return View(allStudent);
         }
 
 

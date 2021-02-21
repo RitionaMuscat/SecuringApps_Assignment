@@ -32,22 +32,10 @@ namespace SecuringApps.Presentation.Controllers
         public IActionResult Index()
         {
             var list = _IStudentTaskService.GetStudentTask();
-            var user = _userManager.GetUserId(User);
+   
             var getUser = _userManager.Users.Where(x => x.Id == _userManager.GetUserId(User)).ToList();
+
             var id = getUser.Select(x => x.createdBy);
-
-            //var GetAllTasks = list.Where(y => y.DocumentOwner.Equals(getUser));
-            //var getUser = from a in _userManager.Users
-            //              where a.Id.Equals(user)
-            //              select a;
-            //var getTasks = (from l in list
-            //                where l.DocumentOwner.Equals(getUser)
-            //                select l).FirstOrDefault();
-
-            //var getTasks = list.Where(x => x.DocumentOwner.Equals(id));
-            //var getTasks =( from l in list
-            //               where l.DocumentOwner.Equals(id)
-            //               select l).ToList();
 
             var getTasks = from l in list
                            where id.Contains(l.DocumentOwner)
@@ -55,10 +43,7 @@ namespace SecuringApps.Presentation.Controllers
          
             return View(getTasks);
 
-
-
-
-        }
+ }
 
         [Authorize(Roles = "Teacher")]
         public IActionResult Create()
@@ -66,6 +51,7 @@ namespace SecuringApps.Presentation.Controllers
             CreateStudentTaskModel model = new CreateStudentTaskModel();
             return View();
         }
+
         [HttpPost]
         public IActionResult Create(CreateStudentTaskModel createStudentTask)
         {
