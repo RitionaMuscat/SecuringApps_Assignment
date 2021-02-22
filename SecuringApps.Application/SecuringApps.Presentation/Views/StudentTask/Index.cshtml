@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<SecuringApps.Application.ViewModels.StudentTaskViewModel>
-
+@using SecuringApps.Presentation.Utilities
 <!DOCTYPE html>
 
 <html>
@@ -15,7 +15,7 @@
                     <h5 class="card-title">@task.Name</h5>
                     <h6 class="card-title">@task.Description</h6>
                     <p class="card-title">@task.Deadline</p>
-                    <a href="StudentWork/Create?id=@task.Id" class="btn btn-primary">Submit Work</a>
+                    @Html.ActionLink("Submit Work", "Create","StudentWork", new { id=Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$")}) 
                 </div>
             </div>
      }

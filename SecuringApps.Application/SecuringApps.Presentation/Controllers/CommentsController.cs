@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SecuringApps.Application.Interfaces;
 using SecuringApps.Presentation.Models;
+using SecuringApps.Presentation.Utilities;
 using System;
 using System.Linq;
 
@@ -41,11 +42,16 @@ namespace SecuringApps.Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create(Guid Id)
+        public IActionResult Create(String Id)
         {
+            Id = Id.Replace("|", "/").Replace("_", "+").Replace("$", "=");
+            string output = Encryption.SymmetricDecrypt(Id);
+
+            Guid workId = new Guid(output);
+
             var workList = _studentWorkService.GetStudentWork();
             var value = from i in workList
-                        where i.Id.Equals(Id)
+                        where i.Id.Equals(workId)
                         select i;
 
             CreateCommentsModel model = new CreateCommentsModel();
