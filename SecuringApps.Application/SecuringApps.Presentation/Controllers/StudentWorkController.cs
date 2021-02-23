@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SecuringApps.Application.Interfaces;
 using SecuringApps.Presentation.Models;
 using SecuringApps.Presentation.Utilities;
@@ -22,22 +23,26 @@ namespace SecuringApps.Presentation.Controllers
         private IWebHostEnvironment _env;
         private readonly RoleManager<IdentityRole> _roleManager;
         private UserManager<ApplicationUser> _userManager;
+        private ILogger<StudentWorkController> _logger;
         public StudentWorkController(IStudentWorkService studentWorkService,
                                             IStudentTaskService studentTaskService,
                                             IWebHostEnvironment env,
                                             UserManager<ApplicationUser> userManager,
-                                            RoleManager<IdentityRole> roleManager)
+                                            RoleManager<IdentityRole> roleManager,
+                                            ILogger<StudentWorkController> logger)
         {
             _studentWorkService = studentWorkService;
             _studentTaskService = studentTaskService;
             _env = env;
             _userManager = userManager;
             _roleManager = roleManager;
+            _logger = logger;
         }
         [Authorize(Roles = "Student")]
         [HttpGet]
         public IActionResult Index(Guid Id)
         {
+            _logger.LogInformation("Student accessed its work");
             var _studentWork = _studentWorkService.GetStudentWork();
             var getStudentWork = _studentWork.Where(x => x.workOwner == _userManager.GetUserId(User) || x.workOwner == _userManager.GetUserName(User));
             return View(getStudentWork.ToList());
@@ -46,8 +51,9 @@ namespace SecuringApps.Presentation.Controllers
         [HttpGet]
         public IActionResult AllStudentWork()
         {
-            var allStudent = _studentWorkService.GetStudentWork();
+            _logger.LogInformation("Teacher accessed its work");
 
+            var allStudent = _studentWorkService.GetStudentWork();
             return View(allStudent);
         }
 
@@ -57,6 +63,7 @@ namespace SecuringApps.Presentation.Controllers
         [HttpGet]
         public IActionResult Create(string Id)
         {
+            _logger.LogInformation("Student is creating work");
             Id = Id.Replace("|", "/").Replace("_", "+").Replace("$", "=");
             string output = Encryption.SymmetricDecrypt(Id);
 
@@ -72,7 +79,7 @@ namespace SecuringApps.Presentation.Controllers
         }
 
         [HttpPost]
-        //   [Authorize(Roles = "Student")]
+        [Authorize(Roles = "Student")]
         public IActionResult Create(CreateStudentWorkModel data, IFormFile file)
         {
             CreateStudentWorkModel model = new CreateStudentWorkModel();
@@ -81,10 +88,12 @@ namespace SecuringApps.Presentation.Controllers
 
             try
             {
+                _logger.LogInformation("Creating work..");
                 if (file != null)
                 {
                     if (System.IO.Path.GetExtension(file.FileName) == ".pdf")
                     {
+                        _logger.LogInformation("Checking file extension");
                         data.StudentWork.submittedOn = DateTime.Now;
 
                         var StudentTask = _studentTaskService.GetStudentTask().ToList();
@@ -98,13 +107,16 @@ namespace SecuringApps.Presentation.Controllers
                                    select v;
                         foreach (var item in val)
                         {
+                            _logger.LogInformation("Task exists, starting validation");
                             if (DateTime.Now > item.Deadline)
                             {
+                                _logger.LogInformation("Submission date expired");
                                 ModelState.AddModelError(string.Empty, "Submission date expired.");
                                 break;
                             }
                             if (vals.Any())
                             {
+                                _logger.LogInformation("Work Submitted");
                                 ModelState.AddModelError(string.Empty, "Your work is already submitted");
                                 break;
                             }
@@ -112,6 +124,7 @@ namespace SecuringApps.Presentation.Controllers
                             {
                                 if (file.Length > 0)
                                 {
+                                    _logger.LogInformation("Work Submitted");
                                     string newFilename = Guid.NewGuid() + Path.GetExtension(file.FileName);
 
                                     string absolutePath = _env.ContentRootPath + @"\Files\";
@@ -120,6 +133,7 @@ namespace SecuringApps.Presentation.Controllers
                                     using (var stream = System.IO.File.Create(absolutePath + newFilename))
                                     {
                                         file.CopyTo(stream);
+                                        _logger.LogInformation("File copied");
                                     }
 
                                     CompareFileHashes(newFilename);
@@ -136,19 +150,24 @@ namespace SecuringApps.Presentation.Controllers
                     }
                     else
                     {
+                        _logger.LogError("File Extension allowed is PDF");
                         ModelState.AddModelError(string.Empty, "File Extension allowed is PDF");
                     }
 
                 }
                 else
                 {
+                    _logger.LogError("Document not attacghed.");
                     ModelState.AddModelError(string.Empty, "Please attach document");
                 }
             }
             catch (Exception ex)
             {
+
                 var error = ex.Message;
+                _logger.LogError("Error: "+error);
                 error = ex.InnerException.ToString();
+      
                 //log errors
                 ViewData["warning"] = "Your work was not added. Check your details";
 
@@ -173,6 +192,7 @@ namespace SecuringApps.Presentation.Controllers
                 if (e.Error == null & !e.Cancelled)
                 {
                     Debug.WriteLine(@"Download completed!");
+                    _logger.LogInformation("Download completed!");
                 }
             };
 
@@ -186,10 +206,12 @@ namespace SecuringApps.Presentation.Controllers
 
                 var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
                 webClient.DownloadFileAsync(url, path);
+                _logger.LogInformation("Download completed!");
             }
             catch (Exception ex)
             {
                 var err = ex.Message;
+                _logger.LogError("Error: " + err);
             }
 
             return View();
@@ -210,7 +232,7 @@ namespace SecuringApps.Presentation.Controllers
             var fileName2 = "";
             if (getAllFiles.Any())
             {
-
+                _logger.LogInformation("Found Files, Comparing hashes " );
                 foreach (var item in getFileName)
                 {
                     fileName2 = _env.WebRootPath + item.filePath;

@@ -63,6 +63,18 @@
           "lib/netstandard2.0/IdentityModel.dll": {}
         }
       },
+      "log4net/2.0.12": {
+        "type": "package",
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "4.5.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/log4net.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/log4net.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Authentication/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -827,16 +839,40 @@
           "lib/netcoreapp3.1/Microsoft.Extensions.Caching.Memory.dll": {}
         }
       },
-      "Microsoft.Extensions.Configuration.Abstractions/2.2.0": {
+      "Microsoft.Extensions.Configuration/3.1.10": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "2.2.0"
+          "Microsoft.Extensions.Configuration.Abstractions": "3.1.10"
         },
         "compile": {
-          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll": {}
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll": {}
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Configuration.Abstractions/3.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "3.1.10"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Configuration.Binder/3.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "3.1.10"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Binder.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Binder.dll": {}
         }
       },
       "Microsoft.Extensions.DependencyInjection/5.0.0": {
@@ -957,6 +993,23 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Logging.Log4Net.AspNetCore/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "3.1.10",
+          "Microsoft.Extensions.Configuration.Abstractions": "3.1.10",
+          "Microsoft.Extensions.Configuration.Binder": "3.1.10",
+          "Microsoft.Extensions.Logging": "3.1.10",
+          "System.Xml.XPath.XDocument": "4.3.0",
+          "log4net": "2.0.12"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll": {}
         }
       },
       "Microsoft.Extensions.ObjectPool/2.2.0": {
@@ -1533,6 +1586,119 @@
           }
         }
       },
+      "Serilog/2.5.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.0.1",
+          "System.Collections": "4.0.11",
+          "System.Collections.NonGeneric": "4.0.1",
+          "System.Dynamic.Runtime": "4.0.11",
+          "System.Globalization": "4.0.11",
+          "System.Linq": "4.1.0",
+          "System.Reflection": "4.1.0",
+          "System.Reflection.Extensions": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Text.RegularExpressions": "4.1.0",
+          "System.Threading": "4.0.11"
+        },
+        "compile": {
+          "lib/netstandard1.3/Serilog.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Serilog.dll": {}
+        }
+      },
+      "Serilog.Extensions.Logging/2.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "2.0.0",
+          "Serilog": "2.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Serilog.Extensions.Logging.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Serilog.Extensions.Logging.dll": {}
+        }
+      },
+      "Serilog.Extensions.Logging.File/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "2.0.0",
+          "Microsoft.Extensions.Configuration.Binder": "2.0.0",
+          "Serilog": "2.5.0",
+          "Serilog.Extensions.Logging": "2.0.2",
+          "Serilog.Formatting.Compact": "1.0.0",
+          "Serilog.Sinks.Async": "1.1.0",
+          "Serilog.Sinks.RollingFile": "3.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Serilog.Extensions.Logging.File.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Serilog.Extensions.Logging.File.dll": {}
+        }
+      },
+      "Serilog.Formatting.Compact/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Serilog": "2.0.0"
+        },
+        "compile": {
+          "lib/netstandard1.1/Serilog.Formatting.Compact.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Serilog.Formatting.Compact.dll": {}
+        }
+      },
+      "Serilog.Sinks.Async/1.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Serilog": "2.1.0",
+          "System.Collections.Concurrent": "4.0.12"
+        },
+        "compile": {
+          "lib/netstandard1.1/Serilog.Sinks.Async.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Serilog.Sinks.Async.dll": {}
+        }
+      },
+      "Serilog.Sinks.File/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Serilog": "2.3.0",
+          "System.IO": "4.1.0",
+          "System.IO.FileSystem": "4.0.1",
+          "System.IO.FileSystem.Primitives": "4.0.1",
+          "System.Text.Encoding.Extensions": "4.0.11",
+          "System.Threading": "4.0.11",
+          "System.Threading.Timer": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/Serilog.Sinks.File.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Serilog.Sinks.File.dll": {}
+        }
+      },
+      "Serilog.Sinks.RollingFile/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Serilog.Sinks.File": "3.2.0",
+          "System.IO": "4.1.0",
+          "System.IO.FileSystem.Primitives": "4.0.1",
+          "System.Runtime.InteropServices": "4.1.0",
+          "System.Text.Encoding.Extensions": "4.0.11"
+        },
+        "compile": {
+          "lib/netstandard1.3/Serilog.Sinks.RollingFile.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Serilog.Sinks.RollingFile.dll": {}
+        }
+      },
       "System.AppContext/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -1812,7 +1978,7 @@
           "System.Security.Permissions": "4.5.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {}
+          "ref/netstandard2.0/System.Configuration.ConfigurationManager.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll": {}
@@ -3102,6 +3268,46 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "System.Xml.XPath/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Xml.XPath.dll": {}
+        }
+      },
+      "System.Xml.XPath.XDocument/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Linq": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0",
+          "System.Xml.XDocument": "4.3.0",
+          "System.Xml.XPath": "4.3.0"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
+        }
+      },
       "SecuringApps.Application/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -3266,6 +3472,34 @@
         "lib/netstandard2.0/IdentityModel.dll",
         "lib/netstandard2.0/IdentityModel.pdb",
         "lib/netstandard2.0/IdentityModel.xml"
+      ]
+    },
+    "log4net/2.0.12": {
+      "sha512": "9P67BCftJ7KG+B7rNOM1A9KczUwyEDed6zbAddy5Cj/73xVkzi+rEAHeOgUnW5wDqy1JFlY8+oTP0m1PgJ03Tg==",
+      "type": "package",
+      "path": "log4net/2.0.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/log4net.dll",
+        "lib/net20/log4net.xml",
+        "lib/net35-client/log4net.dll",
+        "lib/net35-client/log4net.xml",
+        "lib/net35/log4net.dll",
+        "lib/net35/log4net.xml",
+        "lib/net40-client/log4net.dll",
+        "lib/net40-client/log4net.xml",
+        "lib/net40/log4net.dll",
+        "lib/net40/log4net.xml",
+        "lib/net45/log4net.dll",
+        "lib/net45/log4net.xml",
+        "lib/netstandard1.3/log4net.dll",
+        "lib/netstandard1.3/log4net.xml",
+        "lib/netstandard2.0/log4net.dll",
+        "lib/netstandard2.0/log4net.xml",
+        "log4net.2.0.12.nupkg.sha512",
+        "log4net.nuspec",
+        "package-icon.png"
       ]
     },
     "Microsoft.AspNetCore.Authentication/2.2.0": {
@@ -4202,17 +4436,52 @@
         "microsoft.extensions.caching.memory.nuspec"
       ]
     },
-    "Microsoft.Extensions.Configuration.Abstractions/2.2.0": {
-      "sha512": "65MrmXCziWaQFrI0UHkQbesrX5wTwf9XPjY5yFm/VkgJKFJ5gqvXRoXjIZcf2wLi5ZlwGz/oMYfyURVCWbM5iw==",
+    "Microsoft.Extensions.Configuration/3.1.10": {
+      "sha512": "HHBhCP3wAJe7UIXjim0wFXty0WG/rZAP3aZyy03uuaxiOOPHJjbUdY6K9qkfQuP+hsRzfiT+np5k4rFmcSo3og==",
       "type": "package",
-      "path": "microsoft.extensions.configuration.abstractions/2.2.0",
+      "path": "microsoft.extensions.configuration/3.1.10",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.xml",
+        "microsoft.extensions.configuration.3.1.10.nupkg.sha512",
+        "microsoft.extensions.configuration.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Configuration.Abstractions/3.1.10": {
+      "sha512": "UEfngyXt8XYhmekUza9JsWlA37pNOtZAjcK5EEKQrHo2LDKJmZVmcyAUFlkzCcf97OSr+w/MiDLifDDNQk9agw==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.abstractions/3.1.10",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.xml",
-        "microsoft.extensions.configuration.abstractions.2.2.0.nupkg.sha512",
+        "microsoft.extensions.configuration.abstractions.3.1.10.nupkg.sha512",
         "microsoft.extensions.configuration.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Configuration.Binder/3.1.10": {
+      "sha512": "B9nQBk0GZVkOgSB1oB9V/7kvxhBvLCqm2x4m8MIoSxrd9yga8MVq2HWqnai8zZdH1WL6OlOG5mCVrwgAVwNNJg==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.binder/3.1.10",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Binder.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Binder.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Binder.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Binder.xml",
+        "microsoft.extensions.configuration.binder.3.1.10.nupkg.sha512",
+        "microsoft.extensions.configuration.binder.nuspec"
       ]
     },
     "Microsoft.Extensions.DependencyInjection/5.0.0": {
@@ -4385,6 +4654,27 @@
         "microsoft.extensions.logging.abstractions.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Microsoft.Extensions.Logging.Log4Net.AspNetCore/5.0.0": {
+      "sha512": "1dP6BZWZmfFfVMMIZvpDTzRxgvtuXHDZgY4xTwLer9vsiK8GbYE3t6u50ctzNo4V+ajtkm3CCkv8LgdWOe8YXg==",
+      "type": "package",
+      "path": "microsoft.extensions.logging.log4net.aspnetcore/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "lib/net5.0/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll",
+        "lib/netcoreapp1.1/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll",
+        "lib/netcoreapp2.0/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll",
+        "lib/netcoreapp2.1/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll",
+        "lib/netcoreapp2.2/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll",
+        "lib/netcoreapp3.0/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll",
+        "lib/netstandard2.1/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll",
+        "microsoft.extensions.logging.log4net.aspnetcore.5.0.0.nupkg.sha512",
+        "microsoft.extensions.logging.log4net.aspnetcore.nuspec"
       ]
     },
     "Microsoft.Extensions.ObjectPool/2.2.0": {
@@ -5480,6 +5770,121 @@
         "runtimes/win-x86/native/sni.dll",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Serilog/2.5.0": {
+      "sha512": "JwwkgNYNFKT4kQZ3qBV3VqPgchUg1A6FnlFa9hgyanylwBhJ7eTFl3pgLVxijFEb+oHLImRcMaTsMzBt2AG0aQ==",
+      "type": "package",
+      "path": "serilog/2.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Serilog.dll",
+        "lib/net45/Serilog.xml",
+        "lib/net46/Serilog.dll",
+        "lib/net46/Serilog.xml",
+        "lib/netstandard1.0/Serilog.dll",
+        "lib/netstandard1.0/Serilog.xml",
+        "lib/netstandard1.3/Serilog.dll",
+        "lib/netstandard1.3/Serilog.xml",
+        "serilog.2.5.0.nupkg.sha512",
+        "serilog.nuspec"
+      ]
+    },
+    "Serilog.Extensions.Logging/2.0.2": {
+      "sha512": "PYAkzUn/VV16Es7U06BfEhNZEltnYWu0WFCM4d2lLY/dvlA7xMwFXBuGRxR0XvEBPoOxPorjhFLy9txwiMO6rg==",
+      "type": "package",
+      "path": "serilog.extensions.logging/2.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Serilog.Extensions.Logging.dll",
+        "lib/net45/Serilog.Extensions.Logging.xml",
+        "lib/net46/Serilog.Extensions.Logging.dll",
+        "lib/net46/Serilog.Extensions.Logging.xml",
+        "lib/net461/Serilog.Extensions.Logging.dll",
+        "lib/net461/Serilog.Extensions.Logging.xml",
+        "lib/netstandard1.3/Serilog.Extensions.Logging.dll",
+        "lib/netstandard1.3/Serilog.Extensions.Logging.xml",
+        "lib/netstandard2.0/Serilog.Extensions.Logging.dll",
+        "lib/netstandard2.0/Serilog.Extensions.Logging.xml",
+        "serilog.extensions.logging.2.0.2.nupkg.sha512",
+        "serilog.extensions.logging.nuspec"
+      ]
+    },
+    "Serilog.Extensions.Logging.File/2.0.0": {
+      "sha512": "usO0qr4v9VCMBWiTJ1nQmAbPNCt40FrkDol6CpfCXbsxGZS/hH+YCueF7vvPQ32ATI0GWcMWiKRdjXEE7/HxTQ==",
+      "type": "package",
+      "path": "serilog.extensions.logging.file/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net461/Serilog.Extensions.Logging.File.dll",
+        "lib/net461/Serilog.Extensions.Logging.File.xml",
+        "lib/netstandard2.0/Serilog.Extensions.Logging.File.dll",
+        "lib/netstandard2.0/Serilog.Extensions.Logging.File.xml",
+        "serilog.extensions.logging.file.2.0.0.nupkg.sha512",
+        "serilog.extensions.logging.file.nuspec"
+      ]
+    },
+    "Serilog.Formatting.Compact/1.0.0": {
+      "sha512": "r3QYz02y7+B7Ng30hyJM929OJhem7SsJ4XDUE0Zfptj2MRiQfpPUb5f58juAFjp/TnNeSX2QNzZEnHwLeoJfHQ==",
+      "type": "package",
+      "path": "serilog.formatting.compact/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Serilog.Formatting.Compact.dll",
+        "lib/net45/Serilog.Formatting.Compact.xml",
+        "lib/netstandard1.1/Serilog.Formatting.Compact.dll",
+        "lib/netstandard1.1/Serilog.Formatting.Compact.xml",
+        "serilog.formatting.compact.1.0.0.nupkg.sha512",
+        "serilog.formatting.compact.nuspec"
+      ]
+    },
+    "Serilog.Sinks.Async/1.1.0": {
+      "sha512": "xll0Kanz2BkCxuv+F3p1WXr47jdsVM0GU1n1LZvK+18QiRZ/WGFNxSNw9EMKFV5ED5gr7MUpAe6PCMNL1HGUMA==",
+      "type": "package",
+      "path": "serilog.sinks.async/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Serilog.Sinks.Async.dll",
+        "lib/net45/Serilog.Sinks.Async.xml",
+        "lib/netstandard1.1/Serilog.Sinks.Async.dll",
+        "lib/netstandard1.1/Serilog.Sinks.Async.xml",
+        "serilog.sinks.async.1.1.0.nupkg.sha512",
+        "serilog.sinks.async.nuspec"
+      ]
+    },
+    "Serilog.Sinks.File/3.2.0": {
+      "sha512": "VHbo68pMg5hwSWrzLEdZv5b/rYmIgHIRhd4d5rl8GnC5/a8Fr+RShT5kWyeJOXax1el6mNJ+dmHDOVgnNUQxaw==",
+      "type": "package",
+      "path": "serilog.sinks.file/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Serilog.Sinks.File.dll",
+        "lib/net45/Serilog.Sinks.File.xml",
+        "lib/netstandard1.3/Serilog.Sinks.File.dll",
+        "lib/netstandard1.3/Serilog.Sinks.File.xml",
+        "serilog.sinks.file.3.2.0.nupkg.sha512",
+        "serilog.sinks.file.nuspec"
+      ]
+    },
+    "Serilog.Sinks.RollingFile/3.3.0": {
+      "sha512": "2lT5X1r3GH4P0bRWJfhA7etGl8Q2Ipw9AACvtAHWRUSpYZ42NGVyHoVs2ALBZ/cAkkS+tA4jl80Zie144eLQPg==",
+      "type": "package",
+      "path": "serilog.sinks.rollingfile/3.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Serilog.Sinks.RollingFile.dll",
+        "lib/net45/Serilog.Sinks.RollingFile.xml",
+        "lib/netstandard1.3/Serilog.Sinks.RollingFile.dll",
+        "lib/netstandard1.3/Serilog.Sinks.RollingFile.xml",
+        "serilog.sinks.rollingfile.3.3.0.nupkg.sha512",
+        "serilog.sinks.rollingfile.nuspec"
       ]
     },
     "System.AppContext/4.3.0": {
@@ -9880,6 +10285,84 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "System.Xml.XPath/4.3.0": {
+      "sha512": "v1JQ5SETnQusqmS3RwStF7vwQ3L02imIzl++sewmt23VGygix04pEH+FCj1yWb+z4GDzKiljr1W7Wfvrx0YwgA==",
+      "type": "package",
+      "path": "system.xml.xpath/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Xml.XPath.dll",
+        "lib/netstandard1.3/System.Xml.XPath.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/System.Xml.XPath.dll",
+        "ref/netstandard1.3/System.Xml.XPath.dll",
+        "ref/netstandard1.3/System.Xml.XPath.xml",
+        "ref/netstandard1.3/de/System.Xml.XPath.xml",
+        "ref/netstandard1.3/es/System.Xml.XPath.xml",
+        "ref/netstandard1.3/fr/System.Xml.XPath.xml",
+        "ref/netstandard1.3/it/System.Xml.XPath.xml",
+        "ref/netstandard1.3/ja/System.Xml.XPath.xml",
+        "ref/netstandard1.3/ko/System.Xml.XPath.xml",
+        "ref/netstandard1.3/ru/System.Xml.XPath.xml",
+        "ref/netstandard1.3/zh-hans/System.Xml.XPath.xml",
+        "ref/netstandard1.3/zh-hant/System.Xml.XPath.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.xml.xpath.4.3.0.nupkg.sha512",
+        "system.xml.xpath.nuspec"
+      ]
+    },
+    "System.Xml.XPath.XDocument/4.3.0": {
+      "sha512": "jw9oHHEIVW53mHY9PgrQa98Xo2IZ0ZjrpdOTmtvk+Rvg4tq7dydmxdNqUvJ5YwjDqhn75mBXWttWjiKhWP53LQ==",
+      "type": "package",
+      "path": "system.xml.xpath.xdocument/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Xml.XPath.XDocument.dll",
+        "lib/netstandard1.3/System.Xml.XPath.XDocument.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/System.Xml.XPath.XDocument.dll",
+        "ref/netstandard1.3/System.Xml.XPath.XDocument.dll",
+        "ref/netstandard1.3/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/de/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/es/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/fr/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/it/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/ja/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/ko/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/ru/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/zh-hans/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/zh-hant/System.Xml.XPath.XDocument.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
+        "system.xml.xpath.xdocument.nuspec"
+      ]
+    },
     "SecuringApps.Application/1.0.0": {
       "type": "project",
       "path": "../SecuringApps.Application/SecuringApps.Application.csproj",
@@ -9915,9 +10398,11 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.11",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.11",
       "Microsoft.Extensions.Identity.Core >= 5.0.2",
+      "Microsoft.Extensions.Logging.Log4Net.AspNetCore >= 5.0.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.5",
       "SecuringApps.Application >= 1.0.0",
-      "SecuringApps.IOC >= 1.0.0"
+      "SecuringApps.IOC >= 1.0.0",
+      "Serilog.Extensions.Logging.File >= 2.0.0"
     ]
   },
   "packageFolders": {
@@ -10019,9 +10504,17 @@
             "target": "Package",
             "version": "[5.0.2, )"
           },
+          "Microsoft.Extensions.Logging.Log4Net.AspNetCore": {
+            "target": "Package",
+            "version": "[5.0.0, )"
+          },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[3.1.5, )"
+          },
+          "Serilog.Extensions.Logging.File": {
+            "target": "Package",
+            "version": "[2.0.0, )"
           }
         },
         "imports": [

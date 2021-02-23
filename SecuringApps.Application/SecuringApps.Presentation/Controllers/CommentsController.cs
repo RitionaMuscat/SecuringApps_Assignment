@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SecuringApps.Application.Interfaces;
 using SecuringApps.Presentation.Models;
 using SecuringApps.Presentation.Utilities;
@@ -17,21 +18,26 @@ namespace SecuringApps.Presentation.Controllers
         private IWebHostEnvironment _env;
         private readonly RoleManager<IdentityRole> _roleManager;
         private UserManager<ApplicationUser> _userManager;
+        private ILogger<CommentsController> _logger;
         public CommentsController(IStudentWorkService studentWorkService,
                                             ICommentsService commentService,
                                             IWebHostEnvironment env,
                                             UserManager<ApplicationUser> userManager,
-                                            RoleManager<IdentityRole> roleManager)
+                                            RoleManager<IdentityRole> roleManager,
+                                            ILogger<CommentsController> logger
+                                            )
         {
             _studentWorkService = studentWorkService;
             _commentService = commentService;
             _env = env;
             _userManager = userManager;
             _roleManager = roleManager;
+            _logger = logger;
         }
         [HttpGet]
         public IActionResult Index()
         {
+            _logger.LogInformation("User just accessed the access comment page");
             var _comments = _commentService.GetComments();
             var _studentWork = _studentWorkService.GetStudentWork();
             var _work = from a in _comments
@@ -44,6 +50,7 @@ namespace SecuringApps.Presentation.Controllers
         [HttpGet]
         public IActionResult Create(String Id)
         {
+            _logger.LogInformation("User just accessed the access comment page");
             Id = Id.Replace("|", "/").Replace("_", "+").Replace("$", "=");
             string output = Encryption.SymmetricDecrypt(Id);
 

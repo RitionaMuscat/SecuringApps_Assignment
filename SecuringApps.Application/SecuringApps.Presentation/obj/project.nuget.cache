@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NJRJxmy6Ye2lkjwyrBR1ib41TvaEJ0wQmOM/JNew8n7Tg3ghYH+7z5Sy2Hot0XVsD3ydJncFSpgA8mFwzK4DkA==",
+  "dgSpecHash": "DVV2S+7Cnz0UbnehdX7NqIpw6EvXeZfCCt9ZER+AAtEekVzLh1J9tpMOkTRLVPgcSTHI5EcSXMGyibLm/lQhZA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Dell\\Desktop\\Mcast Degree\\Securing Application\\HomeAssignment\\SecuringApps\\SecuringApps.Application\\SecuringApps.Presentation\\SecuringApps.Presentation.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\Dell\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.0\\automapper.extensions.microsoft.dependencyinjection.8.1.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\identitymodel\\5.0.1\\identitymodel.5.0.1.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\log4net\\2.0.12\\log4net.2.0.12.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
@@ -52,7 +53,9 @@
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\3.1.11\\microsoft.entityframeworkcore.tools.3.1.11.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\3.1.11\\microsoft.extensions.caching.abstractions.3.1.11.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.caching.memory\\3.1.11\\microsoft.extensions.caching.memory.3.1.11.nupkg.sha512",
-    "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\2.2.0\\microsoft.extensions.configuration.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.configuration\\3.1.10\\microsoft.extensions.configuration.3.1.10.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\3.1.10\\microsoft.extensions.configuration.abstractions.3.1.10.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.configuration.binder\\3.1.10\\microsoft.extensions.configuration.binder.3.1.10.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.0\\microsoft.extensions.dependencyinjection.5.0.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\3.1.11\\microsoft.extensions.fileproviders.abstractions.3.1.11.nupkg.sha512",
@@ -62,6 +65,7 @@
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.identity.stores\\3.1.11\\microsoft.extensions.identity.stores.3.1.11.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.logging\\5.0.0\\microsoft.extensions.logging.5.0.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.logging.log4net.aspnetcore\\5.0.0\\microsoft.extensions.logging.log4net.aspnetcore.5.0.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.objectpool\\2.2.0\\microsoft.extensions.objectpool.2.2.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
@@ -108,6 +112,13 @@
     "C:\\Users\\Dell\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\serilog\\2.5.0\\serilog.2.5.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\serilog.extensions.logging\\2.0.2\\serilog.extensions.logging.2.0.2.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\serilog.extensions.logging.file\\2.0.0\\serilog.extensions.logging.file.2.0.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\serilog.formatting.compact\\1.0.0\\serilog.formatting.compact.1.0.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\serilog.sinks.async\\1.1.0\\serilog.sinks.async.1.1.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\serilog.sinks.file\\3.2.0\\serilog.sinks.file.3.2.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\serilog.sinks.rollingfile\\3.3.0\\serilog.sinks.rollingfile.3.3.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\system.appcontext\\4.3.0\\system.appcontext.4.3.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
@@ -198,7 +209,9 @@
     "C:\\Users\\Dell\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\Dell\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\Dell\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\system.xml.xpath.xdocument\\4.3.0\\system.xml.xpath.xdocument.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }

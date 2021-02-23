@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SecuringApps.Application.Interfaces;
 using SecuringApps.Presentation.Models;
 using System;
@@ -12,13 +13,14 @@ namespace SecuringApps.Presentation.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
-
+        private ILogger<StudentTaskController> _logger;
         private IStudentTaskService _IStudentTaskService;
         private IWebHostEnvironment _env;
         public StudentTaskController
         (
             RoleManager<IdentityRole> roleManager,
-                UserManager<ApplicationUser> userManager,
+            UserManager<ApplicationUser> userManager,
+            ILogger<StudentTaskController> logger,
             IStudentTaskService studentTaskService,
             IWebHostEnvironment env
         )
@@ -26,11 +28,13 @@ namespace SecuringApps.Presentation.Controllers
             _IStudentTaskService = studentTaskService;
             _userManager = userManager;
             _roleManager = roleManager;
+            _logger = logger;
             _env = env;
         }
         [HttpGet]
         public IActionResult Index()
         {
+            _logger.LogInformation("Accessing Tasks");
             var list = _IStudentTaskService.GetStudentTask();
    
             var getUser = _userManager.Users.Where(x => x.Id == _userManager.GetUserId(User)).ToList();
@@ -48,6 +52,8 @@ namespace SecuringApps.Presentation.Controllers
         [Authorize(Roles = "Teacher")]
         public IActionResult Create()
         {
+            _logger.LogInformation("Accessing the Create Task");
+
             CreateStudentTaskModel model = new CreateStudentTaskModel();
             return View();
         }
@@ -57,8 +63,12 @@ namespace SecuringApps.Presentation.Controllers
         {
             try
             {
+                _logger.LogInformation("Create Task");
+
                 if (createStudentTask.StudentTask.Deadline <= DateTime.Now)
                 {
+                    _logger.LogError("Deadline should be greater than today's date");
+
                     ModelState.AddModelError(string.Empty, "Deadline should be greater than today's date");
                 }
                 else
@@ -66,6 +76,7 @@ namespace SecuringApps.Presentation.Controllers
                     createStudentTask.StudentTask.DocumentOwner = _userManager.GetUserId(User);
                     if (ModelState.IsValid)
                     {
+                        _logger.LogInformation("Creating Task...");
                         _IStudentTaskService.AddStudentTask(createStudentTask.StudentTask);
                     }
                 }
@@ -75,6 +86,7 @@ namespace SecuringApps.Presentation.Controllers
             {
                 var exception = ex.Message;
                 ModelState.AddModelError(string.Empty, exception);
+                _logger.LogError("Error: " + exception);
                 return RedirectToAction("Error", "Home");
             }
 

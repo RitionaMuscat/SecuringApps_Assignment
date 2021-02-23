@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SecuringApps.Presentation.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace SecuringApps.Presentation.Controllers
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
 
+
         public StudentRegisterController
         (
             UserManager<ApplicationUser> userManager,
@@ -41,7 +43,7 @@ namespace SecuringApps.Presentation.Controllers
             _roleManager = roleManager;
         }
 
-        [Authorize(Roles  = "Teacher")]
+        [Authorize(Roles = "Teacher")]
         public IActionResult Create()
         {
             ViewData["roles"] = _roleManager.Roles.ToList();
@@ -112,29 +114,39 @@ namespace SecuringApps.Presentation.Controllers
         public async Task<IActionResult> Create(ApplicationUser user)
         {
             ViewData["roles"] = _roleManager.Roles.ToList();
-            if (ModelState.IsValid)
+            try
             {
-                var role = _roleManager.FindByIdAsync(Input.Name).Result;
-                if (role.Name == "Student")
+                if (ModelState.IsValid)
                 {
-                    string randomPassword = GenerateRandomPassword();
-                    var newUser = new ApplicationUser { UserName = Input.Email, Email = Input.Email, isStudent = true, createdBy = _userManager.GetUserId(User) };
-
-                    var result = await _userManager.CreateAsync(newUser, randomPassword);
-
-                    await _userManager.AddToRoleAsync(newUser, role.Name);
-                    if (result.Succeeded)
+                    var role = _roleManager.FindByIdAsync(Input.Name).Result;
+                    if (role.Name == "Student")
                     {
-                        SendEmail(newUser.UserName, newUser.Email, "Your login credentials are: \n Username: " + newUser.Email + " \n Password: " + randomPassword);
-                    }
-                    else
-                    {
-                        foreach (var error in result.Errors)
+                        string randomPassword = GenerateRandomPassword();
+                        var newUser = new ApplicationUser { UserName = Input.Email, Email = Input.Email, isStudent = true, createdBy = _userManager.GetUserId(User) };
+
+                        var result = await _userManager.CreateAsync(newUser, randomPassword);
+
+                        await _userManager.AddToRoleAsync(newUser, role.Name);
+                        if (result.Succeeded)
                         {
-                            ModelState.AddModelError(string.Empty, error.Description);
+                            SendEmail(newUser.UserName, newUser.Email, "Your login credentials are: \n Username: " + newUser.Email + " \n Password: " + randomPassword);
+                            _logger.LogInformation("Email Sent");
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                                _logger.LogError("Error!! " + error.Description);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception exc)
+            {
+                var ex = exc.Message;
+                _logger.LogError("Error in Create Student: " + ex);
             }
 
             return View();
@@ -142,8 +154,6 @@ namespace SecuringApps.Presentation.Controllers
         public string SendEmail(string Name, string Email, string Message)
         {
 
-
- 
             var toAddress = new MailAddress(Email);
 
             string subject = "Login Credential For Portal";
@@ -173,8 +183,6 @@ namespace SecuringApps.Presentation.Controllers
             {
                 return e.Message;
             }
-
-
         }
     }
 }
