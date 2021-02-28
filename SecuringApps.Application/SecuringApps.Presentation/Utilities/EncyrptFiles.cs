@@ -45,13 +45,13 @@ namespace SecuringApps.Presentation.Utilities
 
             return data;
         }
-        /*      public static string FileEncrypt(string inputFile, string password)
+             public static string FileEncrypt(string inputFile, string password)
               {
 
                   //generate random salt
                   byte[] salt = GenerateRandomSalt();
 
-                  string fileName = inputFile + ".pdf";
+                  string fileName = inputFile + ".aes";
                   //create output file name
                   FileStream fsCrypt = new FileStream(fileName, FileMode.Create);
 
@@ -100,58 +100,16 @@ namespace SecuringApps.Presentation.Utilities
                   }
                   return fileName;
               }
-        */
+        
 
-        public static byte[] Encrypt(byte[] dataToEncrypt, byte[] key)
-        {
-            using (var aes = Aes.Create())
-            {
-                // Setting KeySize is only important for calling GenerateKey, don't need to do it.
-                //rij.KeySize = KEY_SIZE;
-
-                // AES only has one valid block size (128 bit), no need to set this.
-                //rij.BlockSize = BLOCK_SIZE;
-
-                // You are explicitly setting the padding mode to the default,
-                // but aren't setting the cipher mode.
-                // It seems like you'd either do both for being explicit,
-                // or neither for consistency.
-                aes.Padding = PaddingMode.Zeros;
-                //aes.Mode = CipherMode.CBC;
-
-                // Don't set the key property if you're going to call CreateEncryptor(byte[], byte[])
-                // since you're just causing more memory copying.
-                //rij.Key = key;
-
-                // Regenerating a new IV every call is good.
-                // But this is actually redundant, because when the IV is read
-                // the first time after creating the object it will effectively
-                // call GenerateIV for you. So this doesn't really help, but it's
-                // a personal call for if it makes you feel better to have it here
-                // or to reduce the number of lines of code.
-                //rij.GenerateIV();
-                byte[] iv = aes.IV;
-
-                using (ICryptoTransform encryptor = aes.CreateEncryptor(key, iv))
-                using (var memoryStream = new MemoryStream())
-                {
-                    memoryStream.Write(iv, 0, iv.Length);
-
-                    using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        cryptoStream.Write(dataToEncrypt, 0, dataToEncrypt.Length);
-                    }
-
-                    return memoryStream.ToArray();
-                }
-            }
-        }
+   
         public static void FileDecrypt(string inputFile, string outputFile, string password)
         {
             byte[] passwordBytes = System.Text.Encoding.UTF8.GetBytes(password);
             byte[] salt = new byte[32];
-
-            FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
+            var fileName = inputFile.Substring(250);
+            FileStream fsCrypt = new FileStream(inputFile.Substring(134), FileMode.Open);
+            fsCrypt.Position = 0;
             fsCrypt.Read(salt, 0, salt.Length);
 
             RijndaelManaged AES = new RijndaelManaged();
@@ -164,7 +122,7 @@ namespace SecuringApps.Presentation.Utilities
 
             CryptoStream cs = new CryptoStream(fsCrypt, AES.CreateDecryptor(), CryptoStreamMode.Read);
 
-            FileStream fsOut = new FileStream(outputFile, FileMode.Create);
+            FileStream fsOut = new FileStream(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)+@"\"+Guid.NewGuid()+".pdf", FileMode.Create);
 
             int read;
             byte[] buffer = new byte[1048576];

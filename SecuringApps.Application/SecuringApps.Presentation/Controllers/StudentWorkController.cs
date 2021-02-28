@@ -147,10 +147,10 @@ namespace SecuringApps.Presentation.Controllers
                                         data.StudentWork.isDigitallySigned = result;
                                     }
 
-                                    data.StudentWork.filePath = @"\Files\" + newFilename; //relative Path
+                                  //  data.StudentWork.filePath = @"\Files\" + newFilename; //relative Path
                                  
-                                        //   string fileNameNew = EncyrptFiles.FileEncrypt(absolutePath + newFilename, "FilePassw!").ToString().Substring(134);
-                                    //  data.StudentWork.filePath = fileNameNew;
+                                    string fileNameNew = EncyrptFiles.FileEncrypt(absolutePath + newFilename, "PWd123!");
+                                     data.StudentWork.filePath = fileNameNew;
                                     data.StudentWork.workOwner = _userManager.GetUserName(User);
 
                                     _studentWorkService.AddStudentWork(data.StudentWork);
@@ -207,7 +207,7 @@ namespace SecuringApps.Presentation.Controllers
             var Key = EncyrptFiles.GenerateNewKeyPair();
             var privateKey = Key.PrivateKey;
 
-            EncyrptFiles.FileDecrypt(url.LocalPath, filename, privateKey);
+            EncyrptFiles.FileDecrypt(url.LocalPath, filename,"PWd123!");
 
             WebClient webClient = new WebClient();
 
@@ -227,8 +227,8 @@ namespace SecuringApps.Presentation.Controllers
 
                 Debug.WriteLine(filename);
 
-                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
-                webClient.DownloadFileAsync(url, path);
+                //var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
+                //webClient.DownloadFileAsync(url, path);
                 _logger.LogInformation("Download completed!");
             }
             catch (Exception ex)
