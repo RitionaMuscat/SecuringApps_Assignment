@@ -102,7 +102,6 @@ namespace SecuringApps.Presentation.Controllers
             var getCommentsWork = from a in _comments
                                   select a;
             return View(getCommentsWork);
-         //   return View(Comments);
         }
     }
 }

@@ -10,7 +10,7 @@ using SecuringApps.Data.Context;
 namespace SecuringApps.Data.Migrations
 {
     [DbContext(typeof(SecuringAppsDBContext))]
-    [Migration("20210223211711_InitialMigration")]
+    [Migration("20210228085811_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -106,6 +106,12 @@ namespace SecuringApps.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("filePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDigitallySigned")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("signature")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("submittedOn")

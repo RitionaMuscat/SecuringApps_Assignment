@@ -24,6 +24,8 @@ namespace SecuringApps.Presentation.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private UserManager<ApplicationUser> _userManager;
         private ILogger<StudentWorkController> _logger;
+        Encryption encryption = new Encryption();
+
         public StudentWorkController(IStudentWorkService studentWorkService,
                                             IStudentTaskService studentTaskService,
                                             IWebHostEnvironment env,
@@ -38,6 +40,7 @@ namespace SecuringApps.Presentation.Controllers
             _roleManager = roleManager;
             _logger = logger;
         }
+
         [Authorize(Roles = "Student")]
         [HttpGet]
         public IActionResult Index(Guid Id)
@@ -130,16 +133,24 @@ namespace SecuringApps.Presentation.Controllers
                                     string absolutePath = _env.ContentRootPath + @"\Files\";
 
                                     string getFullFilePath = Path.GetFullPath(file.FileName);
+                                    var Key = EncyrptFiles.GenerateNewKeyPair();
+                                    var privateKey = Key.PrivateKey;
                                     using (var stream = System.IO.File.Create(absolutePath + newFilename))
                                     {
+                                        string signature = EncyrptFiles.DigitallySign(stream, Key.PrivateKey);
+                                        data.StudentWork.signature = signature;
+
                                         file.CopyTo(stream);
                                         _logger.LogInformation("File copied");
+
+                                        bool result = EncyrptFiles.DigitallyVerify(stream, signature, Key.PublicKey);
+                                        data.StudentWork.isDigitallySigned = result;
                                     }
 
-                                    CompareFileHashes(newFilename);
-                                    string encryptedfilename = Guid.NewGuid() + "ENCRYPT" + Path.GetExtension(file.FileName);
-
                                     data.StudentWork.filePath = @"\Files\" + newFilename; //relative Path
+                                 
+                                        //   string fileNameNew = EncyrptFiles.FileEncrypt(absolutePath + newFilename, "FilePassw!").ToString().Substring(134);
+                                    //  data.StudentWork.filePath = fileNameNew;
                                     data.StudentWork.workOwner = _userManager.GetUserName(User);
 
                                     _studentWorkService.AddStudentWork(data.StudentWork);
@@ -165,9 +176,10 @@ namespace SecuringApps.Presentation.Controllers
             {
 
                 var error = ex.Message;
-                _logger.LogError("Error: "+error);
+
+                _logger.LogError("Error: " + error);
                 error = ex.InnerException.ToString();
-      
+
                 //log errors
                 ViewData["warning"] = "Your work was not added. Check your details";
 
@@ -178,12 +190,24 @@ namespace SecuringApps.Presentation.Controllers
             return View(model);
         }
 
-        public IActionResult DownloadFile(Guid id)
+        public IActionResult DownloadFile(String id)
         {
+            id = id.Replace("|", "/").Replace("_", "+").Replace("$", "=");
+            string output = Encryption.SymmetricDecrypt(id);
+
+            Guid fileId = new Guid(output);
+
             var _files = _studentWorkService.GetStudentWork();
 
-            var file = _files.Where(x => x.Id == id).FirstOrDefault();
-            var filename = file.filePath.Substring(7);
+            var file = _files.Where(x => x.Id == fileId).FirstOrDefault();
+            var filename = file.filePath.Substring(7, 15);
+
+            var url = new Uri(_env.ContentRootPath + file.filePath);
+
+            var Key = EncyrptFiles.GenerateNewKeyPair();
+            var privateKey = Key.PrivateKey;
+
+            EncyrptFiles.FileDecrypt(url.LocalPath, filename, privateKey);
 
             WebClient webClient = new WebClient();
 
@@ -196,10 +220,9 @@ namespace SecuringApps.Presentation.Controllers
                 }
             };
 
-            var url = new Uri(_env.WebRootPath + file.filePath);
-
             try
             {
+
                 webClient.OpenRead(url);
 
                 Debug.WriteLine(filename);
@@ -219,7 +242,7 @@ namespace SecuringApps.Presentation.Controllers
         }
         private void CompareFileHashes(string fileName1)
         {
-             var getAllFiles = _studentWorkService.GetStudentWork();
+            var getAllFiles = _studentWorkService.GetStudentWork();
             var getFileName = from a in getAllFiles
                               select a;
 
@@ -232,7 +255,7 @@ namespace SecuringApps.Presentation.Controllers
             var fileName2 = "";
             if (getAllFiles.Any())
             {
-                _logger.LogInformation("Found Files, Comparing hashes " );
+                _logger.LogInformation("Found Files, Comparing hashes ");
                 foreach (var item in getFileName)
                 {
                     fileName2 = _env.WebRootPath + item.filePath;
@@ -250,6 +273,5 @@ namespace SecuringApps.Presentation.Controllers
             }
 
         }
-
     }
 }

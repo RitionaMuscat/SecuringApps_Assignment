@@ -45,6 +45,8 @@ namespace SecuringApps.Data.Migrations
                     filePath = table.Column<string>(nullable: true),
                     workOwner = table.Column<string>(nullable: true),
                     submittedOn = table.Column<DateTime>(nullable: false),
+                    isDigitallySigned = table.Column<bool>(nullable: false),
+                    signature = table.Column<string>(nullable: true),
                     TaskId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>

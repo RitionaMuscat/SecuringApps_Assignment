@@ -1,9 +1,17 @@
-﻿using System;
+﻿
+using NPOI.POIFS.Crypt.Agile;
+using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace SecuringApps.Presentation.Utilities
 {
+    public class KeyPair
+    {
+        public string PublicKey { get; set; }
+        public string PrivateKey { get; set; }
+    }
     public class Encryption
     {
         static string password = "alskdjflaskdjfals";

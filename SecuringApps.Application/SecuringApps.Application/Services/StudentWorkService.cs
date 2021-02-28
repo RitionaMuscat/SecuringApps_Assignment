@@ -25,6 +25,8 @@ namespace SecuringApps.Application.Services
             work.workOwner = data.workOwner;
             work.filePath = data.filePath;
             work.submittedOn = data.submittedOn;
+            work.signature = data.signature;
+            work.isDigitallySigned = data.isDigitallySigned;
             _studentWorkRepo.AddStudentWork(work);
 
         }

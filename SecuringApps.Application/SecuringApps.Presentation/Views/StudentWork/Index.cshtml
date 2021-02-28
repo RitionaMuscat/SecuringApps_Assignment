@@ -13,10 +13,11 @@
             <div class="card-body">
                 <h5 class="card-title">@task.StudentTask.Name</h5>
                 <p class="card-title">@task.submittedOn</p>
-                <a class="card-title">@task.filePath</a>
+
                 <p class="card-title">@task.workOwner</p>
-                @*<a href="Comments/Create?id=@task.Id" class="btn btn-primary">Comment</a>*@
-                @Html.ActionLink("Comment", "Create", "Comments", new { id = Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$") })
+
+               @Html.ActionLink("Download", "DownloadFile", "StudentWork", new { id = Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$") })
+               @Html.ActionLink("Comment", "Create", "Comments", new { id = Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$") })
 
             </div>
         </div>

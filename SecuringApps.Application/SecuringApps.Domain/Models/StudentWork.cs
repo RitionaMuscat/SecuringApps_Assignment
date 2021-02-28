@@ -14,6 +14,11 @@ namespace SecuringApps.Domain.Models
         public string workOwner { get; set; }
 
         public DateTime submittedOn { get; set; }
+
+        public bool isDigitallySigned { get; set; }
+
+        public string signature { get; set; }
+
         [Required]
         public virtual StudentTask StudentTask { get; set; }
 

@@ -106,6 +106,12 @@ namespace SecuringApps.Data.Migrations
                     b.Property<string>("filePath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isDigitallySigned")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("signature")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("submittedOn")
                         .HasColumnType("datetime2");
 

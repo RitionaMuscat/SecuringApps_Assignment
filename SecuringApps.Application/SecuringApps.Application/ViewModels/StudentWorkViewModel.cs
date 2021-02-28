@@ -10,6 +10,9 @@ namespace SecuringApps.Application.ViewModels
         public string workOwner { get; set; }
 
         public DateTime submittedOn { get; set; }
+        public bool isDigitallySigned { get; set; }
+
+        public string signature { get; set; }
         public StudentTaskViewModel StudentTask { get; set; }
     }
 }
