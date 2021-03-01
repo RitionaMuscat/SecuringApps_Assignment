@@ -60,8 +60,6 @@ namespace SecuringApps.Presentation.Controllers
             return View(allStudent);
         }
 
-
-
         [Authorize(Roles = "Student")]
         [HttpGet]
         public IActionResult Create(string Id)
@@ -135,22 +133,29 @@ namespace SecuringApps.Presentation.Controllers
                                     string getFullFilePath = Path.GetFullPath(file.FileName);
                                     var Key = EncyrptFiles.GenerateNewKeyPair();
                                     var privateKey = Key.PrivateKey;
-                                    using (var stream = System.IO.File.Create(absolutePath + newFilename))
+
+                                    var stream = System.IO.File.Create(absolutePath + newFilename);
+
+                                    file.CopyTo(stream);
+
+                                    _logger.LogInformation("File copied");
+                                    stream.Close();
+
+                                    var fileNameNew = EncyrptFiles.FileEncrypt(absolutePath + newFilename, "PWd123!");
+                                    CompareFileHashes(fileNameNew);
+
+                                    using (var s = System.IO.File.Open(fileNameNew, FileMode.Open))
                                     {
-                                        string signature = EncyrptFiles.DigitallySign(stream, Key.PrivateKey);
+                                        string signature = EncyrptFiles.DigitallySign(s, Key.PrivateKey);
                                         data.StudentWork.signature = signature;
-
-                                        file.CopyTo(stream);
-                                        _logger.LogInformation("File copied");
-
-                                        bool result = EncyrptFiles.DigitallyVerify(stream, signature, Key.PublicKey);
+                                        bool result = EncyrptFiles.DigitallyVerify(s, signature, Key.PublicKey);
                                         data.StudentWork.isDigitallySigned = result;
+                                        s.Close();
+                                        System.IO.File.Delete(absolutePath + newFilename);
                                     }
 
-                                  //  data.StudentWork.filePath = @"\Files\" + newFilename; //relative Path
-                                 
-                                    string fileNameNew = EncyrptFiles.FileEncrypt(absolutePath + newFilename, "PWd123!");
-                                     data.StudentWork.filePath = fileNameNew;
+
+                                    data.StudentWork.filePath = fileNameNew;
                                     data.StudentWork.workOwner = _userManager.GetUserName(User);
 
                                     _studentWorkService.AddStudentWork(data.StudentWork);
@@ -207,7 +212,7 @@ namespace SecuringApps.Presentation.Controllers
             var Key = EncyrptFiles.GenerateNewKeyPair();
             var privateKey = Key.PrivateKey;
 
-            EncyrptFiles.FileDecrypt(url.LocalPath, filename,"PWd123!");
+            EncyrptFiles.FileDecrypt(url.LocalPath, filename, "PWd123!");
 
             WebClient webClient = new WebClient();
 
@@ -222,13 +227,10 @@ namespace SecuringApps.Presentation.Controllers
 
             try
             {
-
                 webClient.OpenRead(url);
 
                 Debug.WriteLine(filename);
 
-                //var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
-                //webClient.DownloadFileAsync(url, path);
                 _logger.LogInformation("Download completed!");
             }
             catch (Exception ex)
@@ -238,27 +240,27 @@ namespace SecuringApps.Presentation.Controllers
             }
 
             return View();
-
         }
+
         private void CompareFileHashes(string fileName1)
         {
             var getAllFiles = _studentWorkService.GetStudentWork();
             var getFileName = from a in getAllFiles
                               select a;
 
-            SHA256 sha = SHA256.Create("SHA256");
+            SHA512 sha = SHA512.Create("SHA512");
             HashAlgorithm hash = HashAlgorithm.Create(sha.ToString());
 
             byte[] fileHash1;
             byte[] fileHash2;
-            fileName1 = @"\Files\" + fileName1;
+
             var fileName2 = "";
             if (getAllFiles.Any())
             {
                 _logger.LogInformation("Found Files, Comparing hashes ");
                 foreach (var item in getFileName)
                 {
-                    fileName2 = _env.WebRootPath + item.filePath;
+                    fileName2 = item.filePath;
                     using (FileStream fileStream1 = new FileStream(fileName1, FileMode.Open),
                       fileStream2 = new FileStream(fileName2, FileMode.Open))
                     {
@@ -271,7 +273,6 @@ namespace SecuringApps.Presentation.Controllers
                 }
 
             }
-
         }
     }
 }

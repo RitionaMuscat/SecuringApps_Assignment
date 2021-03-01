@@ -13,7 +13,6 @@
             <div class="card-body">
                 <h5 class="card-title">@task.StudentTask.Name</h5>
                 <p class="card-title">@task.submittedOn</p>
-
                 <p class="card-title">@task.workOwner</p>
 
                @Html.ActionLink("Download", "DownloadFile", "StudentWork", new { id = Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$") })

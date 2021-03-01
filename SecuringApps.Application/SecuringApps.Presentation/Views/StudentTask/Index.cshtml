@@ -15,10 +15,16 @@
                     <h5 class="card-title">@task.Name</h5>
                     <h6 class="card-title">@task.Description</h6>
                     <p class="card-title">@task.Deadline</p>
-                    @Html.ActionLink("Submit Work", "Create","StudentWork", new { id=Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$")}) 
-                </div>
+                    @if (User.IsInRole("Student"))
+                    {
+                @Html.ActionLink("Submit Work", "Create", "StudentWork", new { id = Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$") })
+                    }
+                                </div>
             </div>
      }
+    @if (User.IsInRole("Teacher"))
+    {
     <a href="StudentWork/AllStudentWork" class="btn btn-primary">Show Submitted Work</a>
+    }
 </body>
 </html>

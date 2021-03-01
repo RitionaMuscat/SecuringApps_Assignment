@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 
 namespace SecuringApps.Presentation.Utilities
 {
@@ -108,21 +103,26 @@ namespace SecuringApps.Presentation.Utilities
             byte[] passwordBytes = System.Text.Encoding.UTF8.GetBytes(password);
             byte[] salt = new byte[32];
             var fileName = inputFile.Substring(250);
+
             FileStream fsCrypt = new FileStream(inputFile.Substring(134), FileMode.Open);
             fsCrypt.Position = 0;
+
             fsCrypt.Read(salt, 0, salt.Length);
 
             RijndaelManaged AES = new RijndaelManaged();
             AES.KeySize = 256;
             AES.BlockSize = 128;
+
             var key = new Rfc2898DeriveBytes(passwordBytes, salt, 50000);
             AES.Key = key.GetBytes(AES.KeySize / 8);
             AES.IV = key.GetBytes(AES.BlockSize / 8);
             AES.Padding = PaddingMode.Zeros;
 
             CryptoStream cs = new CryptoStream(fsCrypt, AES.CreateDecryptor(), CryptoStreamMode.Read);
+          
 
             FileStream fsOut = new FileStream(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)+@"\"+Guid.NewGuid()+".pdf", FileMode.Create);
+            fsOut.Position = 0;
 
             int read;
             byte[] buffer = new byte[1048576];

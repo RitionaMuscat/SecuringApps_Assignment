@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<SecuringApps.Application.ViewModels.StudentWorkViewModel>
-
+@using SecuringApps.Presentation.Utilities
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,17 +12,18 @@
     </p>
     @foreach (var task in Model)
     {
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">@task.StudentTask.Name</h5>
-                    <p class="card-title">@task.submittedOn</p>
-                    <p class="card-title">@task.workOwner</p>
-                    <a class="card-title" href="@task.filePath">@task.filePath</a>
-                    <a href="DownloadFile?id=@task.Id" class="btn btn-primary">Download</a>
-                </div>
-            </div>
-        </div>}
+<div class="col-md-4">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">@task.StudentTask.Name</h5>
+            <p class="card-title">@task.submittedOn</p>
+            <p class="card-title">@task.workOwner</p>
+            @Html.ActionLink("Download", "DownloadFile", "StudentWork", new { id = Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$") })
+            @Html.ActionLink("Comment", "Create", "Comments", new { id = Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$") })
+
+        </div>
+    </div>
+</div>}
 
 </body>
 </html>
