@@ -17,14 +17,14 @@
                     <p class="card-title">@task.Deadline</p>
                     @if (User.IsInRole("Student"))
                     {
-                @Html.ActionLink("Submit Work", "Create", "StudentWork", new { id = Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$") })
+                        @Html.ActionLink("Submit Work", "Create", "StudentWork", new { id = Encryption.SymmetricEncrypt(task.Id.ToString()).Replace("/", "|").Replace("+", "_").Replace("=", "$") })
                     }
-                                </div>
+                </div>
             </div>
      }
     @if (User.IsInRole("Teacher"))
     {
-    <a href="StudentWork/AllStudentWork" class="btn btn-primary">Show Submitted Work</a>
+        <a href="StudentWork/AllStudentWork" class="btn btn-primary">Show Submitted Work</a>
     }
 </body>
 </html>

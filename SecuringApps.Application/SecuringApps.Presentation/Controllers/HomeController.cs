@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SecuringApps.Presentation.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SecuringApps.Presentation.Controllers
 {
@@ -23,6 +19,20 @@ namespace SecuringApps.Presentation.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ContactUs(string email, string message, string fullName)
+        {
+
+            //.....
+            return Ok();
+
+        }
         public IActionResult Privacy()
         {
             return View();
