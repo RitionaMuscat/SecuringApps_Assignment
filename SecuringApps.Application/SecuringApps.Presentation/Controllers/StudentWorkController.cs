@@ -92,7 +92,7 @@ namespace SecuringApps.Presentation.Controllers
                 _logger.LogInformation("Creating work..");
                 if (file != null)
                 {
-                    if (System.IO.Path.GetExtension(file.FileName) == ".pdf")
+                    if (Path.GetExtension(file.FileName) == ".pdf")
                     {
                         _logger.LogInformation("Checking file extension");
                         data.StudentWork.submittedOn = DateTime.Now;
@@ -123,6 +123,7 @@ namespace SecuringApps.Presentation.Controllers
                             }
                             else
                             {
+
                                 if (file.Length > 0)
                                 {
                                     _logger.LogInformation("Work Submitted");
@@ -131,27 +132,26 @@ namespace SecuringApps.Presentation.Controllers
                                     string absolutePath = _env.ContentRootPath + @"\Files\";
 
                                     string getFullFilePath = Path.GetFullPath(file.FileName);
-                                    var Key = EncyrptFiles.GenerateNewKeyPair();
-                                    var privateKey = Key.PrivateKey;
-
-                                    var stream = System.IO.File.Create(absolutePath + newFilename);
+                                    var Key = EncyrptFiles.GenerateAsymmetricKey();
+                                 
+                                    var stream = System.IO.File.Create(absolutePath + /*newFilename*/file.FileName);
 
                                     file.CopyTo(stream);
 
                                     _logger.LogInformation("File copied");
                                     stream.Close();
 
-                                    var fileNameNew = EncyrptFiles.FileEncrypt(absolutePath + newFilename, "PWd123!");
-                                    CompareFileHashes(fileNameNew);
-
-                                    using (var s = System.IO.File.Open(fileNameNew, FileMode.Open))
+                                    var fileNameNew = EncyrptFiles.FileEncrypt(absolutePath + /*newFilename*/file.FileName, "PWd123!");
+                                    //CompareFileHashes(fileNameNew);
+                                
+                                    using (var s = System.IO.File.Open(fileNameNew/*file.FileName*/, FileMode.Open))
                                     {
                                         string signature = EncyrptFiles.DigitallySign(s, Key.PrivateKey);
                                         data.StudentWork.signature = signature;
                                         bool result = EncyrptFiles.DigitallyVerify(s, signature, Key.PublicKey);
                                         data.StudentWork.isDigitallySigned = result;
                                         s.Close();
-                                        System.IO.File.Delete(absolutePath + newFilename);
+                                        System.IO.File.Delete(absolutePath + file.FileName);
                                     }
 
 
@@ -209,10 +209,10 @@ namespace SecuringApps.Presentation.Controllers
 
             var url = new Uri(_env.ContentRootPath + file.filePath);
 
-            var Key = EncyrptFiles.GenerateNewKeyPair();
+            var Key = EncyrptFiles.GenerateAsymmetricKey();
             var privateKey = Key.PrivateKey;
 
-            EncyrptFiles.FileDecrypt(url.LocalPath, filename, "PWd123!");
+            EncyrptFiles.FileDecrypt(url.LocalPath, filename, "PWd123!", file.signature);
 
             WebClient webClient = new WebClient();
 

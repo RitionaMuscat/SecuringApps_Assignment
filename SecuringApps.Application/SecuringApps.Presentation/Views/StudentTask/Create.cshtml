@@ -29,7 +29,7 @@
                     <input asp-for="StudentTask.Deadline" class="form-control" />
                     <span asp-validation-for="StudentTask.Deadline" class="text-danger"></span>
                 </div>
-            @if(User.IsInRole("Student"))
+            @if(User.IsInRole("Teacher"))
             {
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
