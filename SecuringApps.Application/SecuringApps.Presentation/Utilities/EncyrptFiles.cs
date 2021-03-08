@@ -89,10 +89,7 @@ namespace SecuringApps.Presentation.Utilities
             {
                 Console.WriteLine("Error: " + ex.Message);
             }
-            //finally
-            //{
 
-            //}
             return fileName;
         }
 
@@ -127,7 +124,7 @@ namespace SecuringApps.Presentation.Utilities
 
             try
             {
-                DigitallyVerify(fsOut, signature, keys.PrivateKey);
+                //DigitallyVerify(fsOut, signature, keys.PrivateKey);
                 while ((read = cs.Read(buffer, 0, buffer.Length)) > 0)
                 {
                     fsOut.Write(buffer, 0, read);
@@ -153,9 +150,39 @@ namespace SecuringApps.Presentation.Utilities
             fsOut.Close();
             fsCrypt.Close();
         }
-
-        public static string DigitallySign(Stream input, string privateKey)
+        public static string DigitallySign(byte[] hashValue)
         {
+            byte[] signedHashValue;
+
+            RSAParameters rsaKeyInfo = new RSAParameters();
+            RSA rsa = RSA.Create();
+
+            RSAPKCS1SignatureFormatter rsaFormatter = new RSAPKCS1SignatureFormatter(rsa);
+            rsaFormatter.SetHashAlgorithm("SHA512");
+
+            signedHashValue = rsaFormatter.CreateSignature(hashValue);
+            return Convert.ToBase64String(signedHashValue);
+        }
+
+        public static bool DigitallyVerify(byte[] hashValue, byte[] signedHashValue)
+        {
+            RSA rsa = RSA.Create();
+            RSAPKCS1SignatureDeformatter rsaDeformatter = new RSAPKCS1SignatureDeformatter(rsa);
+            rsaDeformatter.SetHashAlgorithm("SHA512");
+            if (rsaDeformatter.VerifySignature(hashValue, signedHashValue))
+            {
+                Console.WriteLine("The signature is valid.");
+            }
+            else
+            {
+                Console.WriteLine("The signature is not valid.");
+            }
+            return true;
+        }
+
+    /*    public static string DigitallySign(Stream input, string privateKey)
+        {
+
 
             byte[] digitalSignature;
             try
@@ -168,23 +195,22 @@ namespace SecuringApps.Presentation.Utilities
 
                     digitalSignature = RSA.SignData(input, new SHA512CryptoServiceProvider());
                 }
-}
+            }
             catch (Exception ex)
             {
                 return ex.Message;
             }
 
             return Convert.ToBase64String(digitalSignature);
+
         }
 
         public static bool DigitallyVerify(Stream input, string signature, string publicKeys)
         {
             input.Position = 0;
-            
-  
             try
             {
-                var sha512 = SHA512.Create();
+                var sha512 = new SHA512CryptoServiceProvider();//SHA512.Create();
                 RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
 
                 RSAParameters rSAParameters = new RSAParameters();
@@ -193,17 +219,21 @@ namespace SecuringApps.Presentation.Utilities
                 byte[] inputAsBytes = sha512.ComputeHash(input);
 
                 rsa.FromXmlString(publicKeys);
-       
-                rSAParameters = rsa.ExportParameters(false);
+
+                //  rSAParameters = rsa.ExportParameters(false);
                 bool result = rsa.VerifyData(inputAsBytes, new SHA512CryptoServiceProvider(), signatureAsBytes);
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var e = ex.Message;
             }
+
+
             return true;
+
         }
+    */
     }
 }

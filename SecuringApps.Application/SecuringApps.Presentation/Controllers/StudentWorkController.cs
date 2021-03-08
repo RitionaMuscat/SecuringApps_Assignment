@@ -92,7 +92,7 @@ namespace SecuringApps.Presentation.Controllers
                 _logger.LogInformation("Creating work..");
                 if (file != null)
                 {
-                    if (Path.GetExtension(file.FileName) == ".pdf")
+                    if (Path.GetExtension(file.FileName) == ".pdf" || Path.GetExtension(file.FileName) == ".PDF")
                     {
                         _logger.LogInformation("Checking file extension");
                         data.StudentWork.submittedOn = DateTime.Now;
@@ -141,14 +141,20 @@ namespace SecuringApps.Presentation.Controllers
                                     _logger.LogInformation("File copied");
                                     stream.Close();
 
-                                    var fileNameNew = EncyrptFiles.FileEncrypt(absolutePath + /*newFilename*/file.FileName, "PWd123!");
-                                    //CompareFileHashes(fileNameNew);
+                                    var fileNameNew = EncyrptFiles.FileEncrypt(absolutePath + file.FileName, "PWd123!");
+                                    CompareFileHashes(fileNameNew);
                                 
-                                    using (var s = System.IO.File.Open(fileNameNew/*file.FileName*/, FileMode.Open))
+                                    using (var s = System.IO.File.Open(fileNameNew, FileMode.Open))
                                     {
-                                        string signature = EncyrptFiles.DigitallySign(s, Key.PrivateKey);
+                                        SHA512 sha = SHA512.Create();
+                                        byte[] hashValue = sha.ComputeHash(s);
+                                        string signature = EncyrptFiles.DigitallySign(hashValue);
+                                        byte[] newHash = Convert.FromBase64String(signature);
+                                        
+                                        //   string signature = EncyrptFiles.DigitallySign(s, Key.PrivateKey);
                                         data.StudentWork.signature = signature;
-                                        bool result = EncyrptFiles.DigitallyVerify(s, signature, Key.PublicKey);
+                                        // bool result = EncyrptFiles.DigitallyVerify(s, signature, Key.PublicKey);
+                                        bool result = EncyrptFiles.DigitallyVerify(hashValue,newHash);
                                         data.StudentWork.isDigitallySigned = result;
                                         s.Close();
                                         System.IO.File.Delete(absolutePath + file.FileName);

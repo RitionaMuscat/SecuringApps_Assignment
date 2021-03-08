@@ -51,20 +51,28 @@ namespace SecuringApps.Presentation.Controllers
         public IActionResult Create(String Id)
         {
             _logger.LogInformation("User just accessed the access comment page");
-            Id = Id.Replace("|", "/").Replace("_", "+").Replace("$", "=");
-            string output = Encryption.SymmetricDecrypt(Id);
+            if (Id != null)
+            {
+                Id = Id.Replace("|", "/").Replace("_", "+").Replace("$", "=");
 
-            Guid workId = new Guid(output);
+                string output = Encryption.SymmetricDecrypt(Id);
 
-            var workList = _studentWorkService.GetStudentWork();
-            var value = from i in workList
-                        where i.Id.Equals(workId)
-                        select i;
+                Guid workId = new Guid(output);
 
-            CreateCommentsModel model = new CreateCommentsModel();
-            model.StudentWork = value.ToList();
+                var workList = _studentWorkService.GetStudentWork();
+                var value = from i in workList
+                            where i.Id.Equals(workId)
+                            select i;
 
-            return View(model);
+                CreateCommentsModel model = new CreateCommentsModel();
+                model.StudentWork = value.ToList();
+                return View(model);
+            }
+            else
+            {
+                return View("~/Views/Home/Index.cshtml");
+            }
+            
         }
 
         [HttpPost]
