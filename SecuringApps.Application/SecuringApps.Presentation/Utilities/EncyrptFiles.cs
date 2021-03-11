@@ -12,7 +12,13 @@ namespace SecuringApps.Presentation.Utilities
             public string PublicKey { get; set; }
             public string PrivateKey { get; set; }
         }
+        public static byte[] Hash(byte[] originalData)
+        {
 
+            var myAlg = SHA512.Create();
+            byte[] digest = myAlg.ComputeHash(originalData);
+            return digest;
+        }
         public static AsymmetricKeys GenerateAsymmetricKey()
         {
             RSACryptoServiceProvider myAlg = new RSACryptoServiceProvider();
@@ -40,18 +46,18 @@ namespace SecuringApps.Presentation.Utilities
 
             return data;
         }
-        public static string FileEncrypt(string inputFile, string password)
+        public static string FileEncrypt(string inputFile, byte[]/*string*/ password)
         {
 
             //generate random salt
-            byte[] salt = GenerateRandomSalt();
+            //byte[] salt = GenerateRandomSalt();
 
             string fileName = inputFile + ".aes";
             //create output file name
             FileStream fsCrypt = new FileStream(fileName, FileMode.Create);
 
             //convert password string to byte arrray
-            byte[] passwordBytes = System.Text.Encoding.UTF8.GetBytes(password);
+            //byte[] passwordBytes = System.Text.Encoding.UTF8.GetBytes(password);
 
             //Set Rijndael symmetric encryption algorithm
             RijndaelManaged AES = new RijndaelManaged();
@@ -59,12 +65,13 @@ namespace SecuringApps.Presentation.Utilities
             AES.BlockSize = 128;
             AES.Padding = PaddingMode.PKCS7;
 
-            var key = new Rfc2898DeriveBytes(passwordBytes, salt, 50000);
+
+            var key = new Rfc2898DeriveBytes(password/*Bytes*/, password /*salt*/, 50000);
             AES.Key = key.GetBytes(AES.KeySize / 8);
             AES.IV = key.GetBytes(AES.BlockSize / 8);
 
             // write salt to the begining of the output file, so in this case can be random every time
-            fsCrypt.Write(salt, 0, salt.Length);
+            fsCrypt.Write(/*salt*/password, 0, password/*salt*/.Length);
 
             CryptoStream cs = new CryptoStream(fsCrypt, AES.CreateEncryptor(), CryptoStreamMode.Write);
 
@@ -92,23 +99,45 @@ namespace SecuringApps.Presentation.Utilities
 
             return fileName;
         }
-
-        public static void FileDecrypt(string inputFile, string outputFile, string password, string signature)
+        public static byte[] DigitalSign(string privateKey, MemoryStream dataToBeSigned)
         {
-            byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            rsa.FromXmlString(privateKey);
+
+            byte[] digest = Hash(dataToBeSigned.ToArray());
+
+            byte[] signature = rsa.SignHash(digest, "SHA512");
+            return signature;
+        }
+
+        public static bool VerifySignature(string publicKey, MemoryStream dataToBeVerified, byte[] signature)
+        {
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            rsa.FromXmlString(publicKey);
+
+            byte[] digest = Hash(dataToBeVerified.ToArray());
+
+            bool result = rsa.VerifyHash(digest, "SHA512", signature);
+            //true: file is ok, its the same, it was not tampared
+            //false: file is not ok, its been tampared
+            return result;
+        }
+        public static void FileDecrypt(string inputFile, string outputFile, byte[] password, string signature)
+        {
+            //byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
             byte[] salt = new byte[32];
             var fileName = inputFile.Substring(250);
 
             FileStream fsCrypt = new FileStream(inputFile.Substring(134), FileMode.Open);
             fsCrypt.Position = 0;
 
-            fsCrypt.Read(salt, 0, salt.Length);
+            fsCrypt.Read(/*salt*/password, 0, /*salt*/password.Length);
 
             RijndaelManaged AES = new RijndaelManaged();
             AES.KeySize = 256;
             AES.BlockSize = 128;
 
-            var key = new Rfc2898DeriveBytes(passwordBytes, salt, 50000);
+            var key = new Rfc2898DeriveBytes(/*passwordBytes*/password, /*salt*/password, 50000);
             AES.Key = key.GetBytes(AES.KeySize / 8);
             AES.IV = key.GetBytes(AES.BlockSize / 8);
             AES.Padding = PaddingMode.Zeros;
@@ -180,60 +209,6 @@ namespace SecuringApps.Presentation.Utilities
             return true;
         }
 
-    /*    public static string DigitallySign(Stream input, string privateKey)
-        {
-
-
-            byte[] digitalSignature;
-            try
-            {
-                RSAParameters rSAParameters = new RSAParameters();
-                using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider())
-                {
-                    RSA.FromXmlString(privateKey);
-                    rSAParameters = RSA.ExportParameters(true);
-
-                    digitalSignature = RSA.SignData(input, new SHA512CryptoServiceProvider());
-                }
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-
-            return Convert.ToBase64String(digitalSignature);
-
-        }
-
-        public static bool DigitallyVerify(Stream input, string signature, string publicKeys)
-        {
-            input.Position = 0;
-            try
-            {
-                var sha512 = new SHA512CryptoServiceProvider();//SHA512.Create();
-                RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-
-                RSAParameters rSAParameters = new RSAParameters();
-
-                byte[] signatureAsBytes = Convert.FromBase64String(signature);
-                byte[] inputAsBytes = sha512.ComputeHash(input);
-
-                rsa.FromXmlString(publicKeys);
-
-                //  rSAParameters = rsa.ExportParameters(false);
-                bool result = rsa.VerifyData(inputAsBytes, new SHA512CryptoServiceProvider(), signatureAsBytes);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                var e = ex.Message;
-            }
-
-
-            return true;
-
-        }
-    */
+    
     }
 }
