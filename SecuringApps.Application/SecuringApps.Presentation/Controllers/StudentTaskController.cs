@@ -36,7 +36,7 @@ namespace SecuringApps.Presentation.Controllers
         {
             _logger.LogInformation("Accessing Tasks");
             var list = _IStudentTaskService.GetStudentTask();
-   
+
             var getUser = _userManager.Users.Where(x => x.Id == _userManager.GetUserId(User)).ToList();
 
             var id = getUser.Select(x => x.createdBy);
@@ -44,10 +44,10 @@ namespace SecuringApps.Presentation.Controllers
             var getTasks = from l in list
                            where id.Contains(l.DocumentOwner)
                            select l;
-         
+
             return View(getTasks);
 
- }
+        }
 
         [Authorize(Roles = "Teacher")]
         public IActionResult Create()
@@ -77,6 +77,7 @@ namespace SecuringApps.Presentation.Controllers
                     if (ModelState.IsValid)
                     {
                         _logger.LogInformation("Creating Task...");
+
                         _IStudentTaskService.AddStudentTask(createStudentTask.StudentTask);
                     }
                 }
@@ -93,7 +94,5 @@ namespace SecuringApps.Presentation.Controllers
             CreateStudentTaskModel model = new CreateStudentTaskModel();
             return View();
         }
-
-
     }
 }

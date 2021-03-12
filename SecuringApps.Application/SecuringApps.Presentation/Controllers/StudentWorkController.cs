@@ -125,14 +125,13 @@ namespace SecuringApps.Presentation.Controllers
                             }
                             else
                             {
-
                                 if (file.Length > 0)
                                 {
                                     _logger.LogInformation("Work Submitted");
                                     string newFilename = Guid.NewGuid() + Path.GetExtension(file.FileName);
 
                                     string absolutePath = _env.ContentRootPath + @"\Files\";
-                                    
+
                                     var stream = System.IO.File.Create(absolutePath + file.FileName);
 
                                     file.CopyTo(stream);
@@ -141,21 +140,21 @@ namespace SecuringApps.Presentation.Controllers
                                     stream.Close();
                                     CompareFileHashes(absolutePath + file.FileName);
                                     var keys = EncyrptFiles.GenerateAsymmetricKey();
-                                    using (var s = System.IO.File.Open(absolutePath+file.FileName, FileMode.Open))
+                                    using (var s = System.IO.File.Open(absolutePath + file.FileName, FileMode.Open))
                                     {
                                         data.StudentWork.filePath = @"\Files\" + file.FileName;
-                                        
+
                                         MemoryStream FileM = new MemoryStream();
                                         file.CopyTo(FileM);
-                                       
+
                                         s.Close();
                                         var fileName = EncyrptFiles.FileEncrypt(absolutePath + file.FileName, pwd);
                                         var signature = Convert.ToBase64String(EncyrptFiles.DigitalSign(keys.PrivateKey, FileM));
-                                        
+
                                         data.StudentWork.isDigitallySigned = EncyrptFiles.VerifySignature(keys.PublicKey, FileM, Convert.FromBase64String(signature));
                                         data.StudentWork.filePath = fileName;
                                         data.StudentWork.signature = signature;
-                                        
+
                                         System.IO.File.Delete(absolutePath + file.FileName);
                                     }
 
@@ -217,7 +216,7 @@ namespace SecuringApps.Presentation.Controllers
             EncyrptFiles.FileDecrypt(url.LocalPath, filename, pwd, file.signature);
 
             MemoryStream FileM = new MemoryStream();
-            
+
             WebClient webClient = new WebClient();
 
             webClient.DownloadFileCompleted += (sender, e) =>
@@ -231,7 +230,7 @@ namespace SecuringApps.Presentation.Controllers
 
             try
             {
-               Debug.WriteLine(filename);
+                Debug.WriteLine(filename);
                 _logger.LogInformation("Download completed!");
             }
             catch (Exception ex)
