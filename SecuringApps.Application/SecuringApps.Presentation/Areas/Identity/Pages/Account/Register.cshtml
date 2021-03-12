@@ -5,12 +5,12 @@
     var roles = (List<IdentityRole>)ViewData["roles"];
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="h1-text">@ViewData["Title"]</h1>
 
-<div class="row">
+
     <div class="microsft-register">
-   <h4>Use another service to register.</h4>
-            <hr />
+   <h4 class="h4-text">Use another service to register.</h4>
+       
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
                 {
@@ -39,7 +39,7 @@
             }
 
     </div>
-</div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
