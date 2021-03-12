@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace SecuringApps.Presentation.Utilities
 {
@@ -14,7 +13,6 @@ namespace SecuringApps.Presentation.Utilities
         }
         public static byte[] Hash(byte[] originalData)
         {
-
             var myAlg = SHA512.Create();
             byte[] digest = myAlg.ComputeHash(originalData);
             return digest;
@@ -39,45 +37,35 @@ namespace SecuringApps.Presentation.Utilities
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    // Fille the buffer with the generated data
                     rng.GetBytes(data);
                 }
             }
 
             return data;
         }
-        public static string FileEncrypt(string inputFile, byte[]/*string*/ password)
+        public static string FileEncrypt(string inputFile, byte[] password)
         {
-
-            //generate random salt
-            //byte[] salt = GenerateRandomSalt();
 
             string fileName = inputFile + ".aes";
             //create output file name
             FileStream fsCrypt = new FileStream(fileName, FileMode.Create);
 
-            //convert password string to byte arrray
-            //byte[] passwordBytes = System.Text.Encoding.UTF8.GetBytes(password);
-
-            //Set Rijndael symmetric encryption algorithm
             RijndaelManaged AES = new RijndaelManaged();
             AES.KeySize = 256;
             AES.BlockSize = 128;
             AES.Padding = PaddingMode.PKCS7;
 
+            var key = new Rfc2898DeriveBytes(password, password, 50000);
 
-            var key = new Rfc2898DeriveBytes(password/*Bytes*/, password /*salt*/, 50000);
             AES.Key = key.GetBytes(AES.KeySize / 8);
             AES.IV = key.GetBytes(AES.BlockSize / 8);
 
-            // write salt to the begining of the output file, so in this case can be random every time
-            fsCrypt.Write(/*salt*/password, 0, password/*salt*/.Length);
+            fsCrypt.Write(password, 0, password.Length);
 
             CryptoStream cs = new CryptoStream(fsCrypt, AES.CreateEncryptor(), CryptoStreamMode.Write);
 
             FileStream fsIn = new FileStream(inputFile, FileMode.Open);
 
-            //create a buffer (1mb) so only this amount will allocate in the memory and not the whole file
             byte[] buffer = new byte[1048576];
             int read;
 
@@ -87,7 +75,7 @@ namespace SecuringApps.Presentation.Utilities
                 {
                     cs.Write(buffer, 0, read);
                 }
-                // Close up
+                //Close Streams
                 fsIn.Close();
                 cs.Close();
                 fsCrypt.Close();
@@ -118,26 +106,21 @@ namespace SecuringApps.Presentation.Utilities
             byte[] digest = Hash(dataToBeVerified.ToArray());
 
             bool result = rsa.VerifyHash(digest, "SHA512", signature);
-            //true: file is ok, its the same, it was not tampared
-            //false: file is not ok, its been tampared
+
             return result;
         }
         public static void FileDecrypt(string inputFile, string outputFile, byte[] password, string signature)
         {
-            //byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-            byte[] salt = new byte[32];
-            var fileName = inputFile.Substring(250);
-
             FileStream fsCrypt = new FileStream(inputFile.Substring(134), FileMode.Open);
             fsCrypt.Position = 0;
 
-            fsCrypt.Read(/*salt*/password, 0, /*salt*/password.Length);
+            fsCrypt.Read(password, 0, password.Length);
 
             RijndaelManaged AES = new RijndaelManaged();
             AES.KeySize = 256;
             AES.BlockSize = 128;
 
-            var key = new Rfc2898DeriveBytes(/*passwordBytes*/password, /*salt*/password, 50000);
+            var key = new Rfc2898DeriveBytes(password, password, 50000);
             AES.Key = key.GetBytes(AES.KeySize / 8);
             AES.IV = key.GetBytes(AES.BlockSize / 8);
             AES.Padding = PaddingMode.Zeros;
@@ -149,11 +132,9 @@ namespace SecuringApps.Presentation.Utilities
 
             int read;
             byte[] buffer = new byte[1048576];
-            var keys = GenerateAsymmetricKey();
 
             try
             {
-                //DigitallyVerify(fsOut, signature, keys.PrivateKey);
                 while ((read = cs.Read(buffer, 0, buffer.Length)) > 0)
                 {
                     fsOut.Write(buffer, 0, read);
@@ -183,7 +164,6 @@ namespace SecuringApps.Presentation.Utilities
         {
             byte[] signedHashValue;
 
-            RSAParameters rsaKeyInfo = new RSAParameters();
             RSA rsa = RSA.Create();
 
             RSAPKCS1SignatureFormatter rsaFormatter = new RSAPKCS1SignatureFormatter(rsa);
@@ -208,7 +188,5 @@ namespace SecuringApps.Presentation.Utilities
             }
             return true;
         }
-
-    
     }
 }

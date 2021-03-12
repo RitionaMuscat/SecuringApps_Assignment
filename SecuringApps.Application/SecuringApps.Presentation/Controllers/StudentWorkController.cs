@@ -24,7 +24,7 @@ namespace SecuringApps.Presentation.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private UserManager<ApplicationUser> _userManager;
         private ILogger<StudentWorkController> _logger;
-        Encryption encryption = new Encryption();
+
         byte[] pwd = EncyrptFiles.GenerateRandomSalt();
 
         public StudentWorkController(IStudentWorkService studentWorkService,
@@ -51,6 +51,7 @@ namespace SecuringApps.Presentation.Controllers
             var getStudentWork = _studentWork.Where(x => x.workOwner == _userManager.GetUserId(User) || x.workOwner == _userManager.GetUserName(User));
             return View(getStudentWork.ToList());
         }
+
         [Authorize(Roles = "Teacher")]
         [HttpGet]
         public IActionResult AllStudentWork()
@@ -131,37 +132,33 @@ namespace SecuringApps.Presentation.Controllers
                                     string newFilename = Guid.NewGuid() + Path.GetExtension(file.FileName);
 
                                     string absolutePath = _env.ContentRootPath + @"\Files\";
-
-                                //    string getFullFilePath = Path.GetFullPath(file.FileName);
-                                   
-                                    var stream = System.IO.File.Create(absolutePath + /*newFilename*/file.FileName);
+                                    
+                                    var stream = System.IO.File.Create(absolutePath + file.FileName);
 
                                     file.CopyTo(stream);
 
                                     _logger.LogInformation("File copied");
                                     stream.Close();
-
-                                    //var fileNameNew = EncyrptFiles.FileEncrypt(absolutePath + file.FileName, "PWd123!");
-                                    //CompareFileHashes(file.FileName);
+                                    CompareFileHashes(absolutePath + file.FileName);
                                     var keys = EncyrptFiles.GenerateAsymmetricKey();
                                     using (var s = System.IO.File.Open(absolutePath+file.FileName, FileMode.Open))
                                     {
-                                        var pathOfPublickey = _env.ContentRootPath+ @"\Files\Encrypted_Files\" + "publickey.key";
                                         data.StudentWork.filePath = @"\Files\" + file.FileName;
+                                        
                                         MemoryStream FileM = new MemoryStream();
                                         file.CopyTo(FileM);
-                                        string pass = Convert.ToBase64String(EncyrptFiles.GenerateRandomSalt());
-                                         s.Close();
+                                       
+                                        s.Close();
                                         var fileName = EncyrptFiles.FileEncrypt(absolutePath + file.FileName, pwd);
                                         var signature = Convert.ToBase64String(EncyrptFiles.DigitalSign(keys.PrivateKey, FileM));
+                                        
                                         data.StudentWork.isDigitallySigned = EncyrptFiles.VerifySignature(keys.PublicKey, FileM, Convert.FromBase64String(signature));
                                         data.StudentWork.filePath = fileName;
                                         data.StudentWork.signature = signature;
+                                        
                                         System.IO.File.Delete(absolutePath + file.FileName);
                                     }
 
-
-                                    //data.StudentWork.filePath = fileNameNew;
                                     data.StudentWork.workOwner = _userManager.GetUserName(User);
 
                                     _studentWorkService.AddStudentWork(data.StudentWork);
@@ -216,8 +213,6 @@ namespace SecuringApps.Presentation.Controllers
 
             var url = new Uri(_env.ContentRootPath + file.filePath);
 
-            //var Key = EncyrptFiles.GenerateAsymmetricKey();
-            //var privateKey = Key.PrivateKey;
             var passw = Convert.ToBase64String(pwd);
             EncyrptFiles.FileDecrypt(url.LocalPath, filename, pwd, file.signature);
 
@@ -234,10 +229,7 @@ namespace SecuringApps.Presentation.Controllers
 
             try
             {
-                //webClient.OpenRead(url);
-
-                Debug.WriteLine(filename);
-
+               Debug.WriteLine(filename);
                 _logger.LogInformation("Download completed!");
             }
             catch (Exception ex)
