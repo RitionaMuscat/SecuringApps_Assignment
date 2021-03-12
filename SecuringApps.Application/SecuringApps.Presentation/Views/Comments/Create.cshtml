@@ -27,7 +27,7 @@
                     <select asp-for="Comments.StudentWork.Id" class="form-control">
                         @foreach (var task in Model.StudentWork)
                         {
-                            <option value="@task.Id">@task.filePath</option>
+                            <option value="@task.Id">@task.StudentTask.Description</option>
                         }
                     </select>
                     <span asp-validation-for="Comments.StudentWork.Id" class="text-danger"></span>
