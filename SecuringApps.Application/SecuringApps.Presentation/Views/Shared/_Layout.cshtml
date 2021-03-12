@@ -36,18 +36,21 @@
                             if (User.IsInRole("Student"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="StudentWork" asp-action="Index">Work</a>
+                                      <a class="nav-link text-dark" asp-area="" asp-controller="StudentWork" asp-action="Index">Work</a>
                                 </li>
+                                <li class="nav-item">
+                                     <a class="nav-link text-dark" asp-area="" asp-controller="StudentTask" asp-action="Index">All Tasks</a>
+                                </li> 
                             }
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="StudentRegister" asp-action="Create">Student Creation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="StudentTask" asp-action="Create">Create Task</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="StudentTask" asp-action="Index">All Tasks</a>
-                            </li>
+                            if (User.IsInRole("Teacher"))
+                            {
+                                 <li class="nav-item">
+                                     <a class="nav-link text-dark" asp-area="" asp-controller="StudentRegister" asp-action="Create">Student Creation</a>
+                                 </li>
+                                 <li class="nav-item">
+                                     <a class="nav-link text-dark" asp-area="" asp-controller="StudentTask" asp-action="Create">Create Task</a>
+                                 </li>
+                            }
                         }
                     </ul>
                 </div>

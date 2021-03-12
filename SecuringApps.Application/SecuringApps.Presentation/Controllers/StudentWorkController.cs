@@ -216,6 +216,8 @@ namespace SecuringApps.Presentation.Controllers
             var passw = Convert.ToBase64String(pwd);
             EncyrptFiles.FileDecrypt(url.LocalPath, filename, pwd, file.signature);
 
+            MemoryStream FileM = new MemoryStream();
+            
             WebClient webClient = new WebClient();
 
             webClient.DownloadFileCompleted += (sender, e) =>

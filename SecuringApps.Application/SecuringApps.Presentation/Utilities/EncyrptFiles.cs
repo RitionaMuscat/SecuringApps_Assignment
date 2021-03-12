@@ -111,6 +111,8 @@ namespace SecuringApps.Presentation.Utilities
         }
         public static void FileDecrypt(string inputFile, string outputFile, byte[] password, string signature)
         {
+            MemoryStream FileM = new MemoryStream();
+            var Key = GenerateAsymmetricKey();
             FileStream fsCrypt = new FileStream(inputFile.Substring(134), FileMode.Open);
             fsCrypt.Position = 0;
 
@@ -135,10 +137,18 @@ namespace SecuringApps.Presentation.Utilities
 
             try
             {
+                var keys = GenerateAsymmetricKey();
+          
                 while ((read = cs.Read(buffer, 0, buffer.Length)) > 0)
                 {
                     fsOut.Write(buffer, 0, read);
                 }
+                fsOut.CopyTo(FileM);
+                
+                var sigN = DigitalSign(keys.PrivateKey, FileM);
+
+                VerifySignature(keys.PublicKey, FileM, sigN);
+
             }
             catch (CryptographicException ex_CryptographicException)
             {
@@ -160,33 +170,6 @@ namespace SecuringApps.Presentation.Utilities
             fsOut.Close();
             fsCrypt.Close();
         }
-        public static string DigitallySign(byte[] hashValue)
-        {
-            byte[] signedHashValue;
-
-            RSA rsa = RSA.Create();
-
-            RSAPKCS1SignatureFormatter rsaFormatter = new RSAPKCS1SignatureFormatter(rsa);
-            rsaFormatter.SetHashAlgorithm("SHA512");
-
-            signedHashValue = rsaFormatter.CreateSignature(hashValue);
-            return Convert.ToBase64String(signedHashValue);
-        }
-
-        public static bool DigitallyVerify(byte[] hashValue, byte[] signedHashValue)
-        {
-            RSA rsa = RSA.Create();
-            RSAPKCS1SignatureDeformatter rsaDeformatter = new RSAPKCS1SignatureDeformatter(rsa);
-            rsaDeformatter.SetHashAlgorithm("SHA512");
-            if (rsaDeformatter.VerifySignature(hashValue, signedHashValue))
-            {
-                Console.WriteLine("The signature is valid.");
-            }
-            else
-            {
-                Console.WriteLine("The signature is not valid.");
-            }
-            return true;
-        }
+     
     }
 }
