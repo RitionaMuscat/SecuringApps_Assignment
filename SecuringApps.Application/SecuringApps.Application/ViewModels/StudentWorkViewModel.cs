@@ -13,6 +13,8 @@ namespace SecuringApps.Application.ViewModels
         public bool isDigitallySigned { get; set; }
 
         public string signature { get; set; }
+
+   
         public StudentTaskViewModel StudentTask { get; set; }
     }
 }

@@ -17,6 +17,8 @@ namespace SecuringApps.Domain.Models
 
         public bool isDigitallySigned { get; set; }
 
+
+
         public string signature { get; set; }
 
         [Required]
