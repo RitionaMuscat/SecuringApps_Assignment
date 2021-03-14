@@ -138,7 +138,7 @@ namespace SecuringApps.Presentation.Controllers
 
                                     _logger.LogInformation("File copied");
                                     stream.Close();
-                                //    CompareFileHashes(absolutePath + file.FileName);
+
                                     var keys = EncyrptFiles.GenerateAsymmetricKey();
                                     using (var s = System.IO.File.Open(absolutePath + file.FileName, FileMode.Open))
                                     {
@@ -149,7 +149,7 @@ namespace SecuringApps.Presentation.Controllers
                                         file.CopyTo(FileM);
 
                                         s.CopyTo(FileM);
-              
+
                                         s.Close();
                                         var fileName = EncyrptFiles.FileEncrypt(absolutePath + file.FileName, pwd);
 
@@ -256,24 +256,24 @@ namespace SecuringApps.Presentation.Controllers
 
         private bool CompareFileHashes(string filePath)
         {
-             var getAllFiles = _studentWorkService.GetStudentWork();
-              var getFileName = from a in getAllFiles
-                                select a;
+            var getAllFiles = _studentWorkService.GetStudentWork();
+            var getFileName = from a in getAllFiles
+                              select a;
 
-              SHA512 sha = SHA512.Create("SHA512");
-              HashAlgorithm hash = HashAlgorithm.Create(sha.ToString());
+            SHA512 sha = SHA512.Create("SHA512");
+            HashAlgorithm hash = HashAlgorithm.Create(sha.ToString());
 
-              byte[] fileHash1;
-              byte[] fileHash2;
+            byte[] fileHash1;
+            byte[] fileHash2;
 
             bool result = false;
-              var fileName2 = "";
-              if (getAllFiles.Any())
-              {
-                  _logger.LogInformation("Found Files, Comparing hashes ");
-                  foreach (var item in getFileName)
-                  {
-                      fileName2 = item.filePath;
+            var fileName2 = "";
+            if (getAllFiles.Any())
+            {
+                _logger.LogInformation("Found Files, Comparing hashes ");
+                foreach (var item in getFileName)
+                {
+                    fileName2 = item.filePath;
                     FileStream fileStream1 = new FileStream(filePath, FileMode.Open);
                     fileHash1 = hash.ComputeHash(fileStream1);
                     fileStream1.Close();
@@ -285,16 +285,14 @@ namespace SecuringApps.Presentation.Controllers
                     if (BitConverter.ToString(fileHash1) == BitConverter.ToString(fileHash2))
                     {
                         ModelState.AddModelError(string.Empty, "File is the same");
-                        result = true ;
+                        result = true;
                     }
-               
-                  }
 
-              }
+                }
+
+            }
             return result;
-   
-
-        }
-        }
+       }
     }
+}
 
